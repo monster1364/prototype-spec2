@@ -30,6 +30,7 @@ export default function OrderDashboardPage() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null)
   const [updatedAt, setUpdatedAt] = useState<string>(() => new Date().toISOString())
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isError, setIsError] = useState(false)
   const [devMode, setDevMode] = useState(false)
   const [activeBlock, setActiveBlock] = useState<string | null>(null)
 
@@ -65,10 +66,15 @@ export default function OrderDashboardPage() {
 
   function handleRefresh() {
     setIsRefreshing(true)
+    setIsError(false)
     setTimeout(() => {
       setUpdatedAt(new Date().toISOString())
       setIsRefreshing(false)
     }, 800)
+  }
+
+  function handleRetry() {
+    handleRefresh()
   }
 
   // 현재 탭에 따라 StatusSummary가 가리키는 정책 섹션이 다름 (5.3 ORDER / 5.4 CLAIM)
@@ -160,6 +166,8 @@ export default function OrderDashboardPage() {
             sections={statusSections}
             selectedStatus={selectedStatus}
             onStatusClick={handleStatusClick}
+            isLoading={isRefreshing}
+            isError={isError}
           />
         </DevModeWrapper>
 
@@ -178,6 +186,9 @@ export default function OrderDashboardPage() {
             selectedStatusLabel={selectedStatusLabel}
             selectedStatus={selectedStatus}
             onClearFilter={() => setSelectedStatus(null)}
+            isLoading={isRefreshing}
+            isError={isError}
+            onRetry={handleRetry}
           />
         </DevModeWrapper>
 
