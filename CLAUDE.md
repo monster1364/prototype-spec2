@@ -8,6 +8,7 @@
 - DB 연결 금지
 - 인증 로직 구현 금지 (UI 표현만)
 - 실제품 코드 참조 금지
+- **git commit/push 금지** — 사용자가 명시적으로 요청할 때만 commit 또는 push. 자동 commit/push 절대 금지
 
 ## 기술 스택
 
