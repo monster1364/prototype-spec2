@@ -12,9 +12,8 @@ import {
   type ProductStatus,
 } from '@/mock-data'
 
-const NOTION_BLOCKS = {
-  productTable: 'notion.so/your-page-id#product-table-block',
-}
+// PM이 정책서 Notion 페이지 URL로 교체하세요 (블록 링크 불필요, 페이지 URL 하나면 됩니다)
+const NOTION_PAGE_URL = 'https://www.notion.so/your-page-url'
 
 export default function ProductListPage() {
   const [activeBlock, setActiveBlock] = useState<string | null>(null)
@@ -31,7 +30,8 @@ export default function ProductListPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex min-h-screen">
+    <div className="flex-1 min-w-0 bg-gray-50">
       <header className="bg-white border-b border-gray-200 px-6 py-3">
         <div className="max-w-6xl mx-auto flex items-center gap-2 text-sm">
           <Link href="/" className="text-gray-500 hover:text-gray-700">Home</Link>
@@ -78,7 +78,7 @@ export default function ProductListPage() {
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100">
             <h2 className="text-sm font-semibold text-gray-700">상품 목록</h2>
-            <PolicyButton notionBlock={NOTION_BLOCKS.productTable} onClick={setActiveBlock} />
+            <PolicyButton notionBlock={NOTION_PAGE_URL} onClick={setActiveBlock} />
             <span className="ml-auto text-xs text-gray-500">{filtered.length}건</span>
           </div>
 
@@ -114,6 +114,8 @@ export default function ProductListPage() {
           </table>
         </div>
       </main>
+
+    </div>{/* end 프로토타입 메인 영역 */}
 
       <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
     </div>

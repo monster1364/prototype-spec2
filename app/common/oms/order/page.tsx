@@ -13,12 +13,8 @@ import {
   type OrderStatus,
 } from '@/mock-data'
 
-// Notion 블록 링크는 실제 정책서 작성 후 PM이 업데이트합니다
-const NOTION_BLOCKS = {
-  searchFilter: 'notion.so/your-page-id#search-filter-block',
-  orderTable: 'notion.so/your-page-id#order-table-block',
-  statusBadge: 'notion.so/your-page-id#status-badge-block',
-}
+// PM이 정책서 Notion 페이지 URL로 교체하세요 (블록 링크 불필요, 페이지 URL 하나면 됩니다)
+const NOTION_PAGE_URL = 'https://www.notion.so/your-page-url'
 
 export default function OrderListPage() {
   const [activeBlock, setActiveBlock] = useState<string | null>(null)
@@ -35,7 +31,8 @@ export default function OrderListPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex min-h-screen">
+    <div className="flex-1 min-w-0 bg-gray-50">
       <header className="bg-white border-b border-gray-200 px-6 py-3">
         <div className="max-w-6xl mx-auto flex items-center gap-2 text-sm">
           <Link href="/" className="text-gray-500 hover:text-gray-700">Home</Link>
@@ -59,7 +56,7 @@ export default function OrderListPage() {
         <div className="bg-white rounded-xl border border-gray-200 p-4 mb-4">
           <div className="flex items-center gap-2 mb-3">
             <h2 className="text-sm font-semibold text-gray-700">검색 필터</h2>
-            <PolicyButton notionBlock={NOTION_BLOCKS.searchFilter} onClick={setActiveBlock} />
+            <PolicyButton notionBlock={NOTION_PAGE_URL} onClick={setActiveBlock} />
           </div>
           <div className="flex items-center gap-3">
             <input
@@ -95,7 +92,7 @@ export default function OrderListPage() {
           <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-semibold text-gray-700">주문 목록</h2>
-              <PolicyButton notionBlock={NOTION_BLOCKS.orderTable} onClick={setActiveBlock} />
+              <PolicyButton notionBlock={NOTION_PAGE_URL} onClick={setActiveBlock} />
             </div>
             <span className="text-xs text-gray-500">{filtered.length}건</span>
           </div>
@@ -108,7 +105,7 @@ export default function OrderListPage() {
                 <th className="px-5 py-3 text-xs font-semibold text-gray-600">
                   <div className="flex items-center gap-1">
                     상태
-                    <PolicyButton notionBlock={NOTION_BLOCKS.statusBadge} onClick={setActiveBlock} />
+                    <PolicyButton notionBlock={NOTION_PAGE_URL} onClick={setActiveBlock} />
                   </div>
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold text-gray-600">서비스</th>
@@ -151,6 +148,9 @@ export default function OrderListPage() {
         </div>
       </main>
 
+    </div>{/* end 프로토타입 메인 영역 */}
+
+      {/* 정책서 사이드 패널 */}
       <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
     </div>
   )

@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 import NextLink from "next/link"
-import { Box, Breadcrumbs, Link, Tab, Tabs, Typography } from "@mui/material"
+import { Box, Breadcrumbs, Link, Typography } from "@mui/material"
 import NavigateNextIcon from "@mui/icons-material/NavigateNext"
 import {
   DashboardHeader,
+  DashboardTabs,
   StatusSummary,
   OrderListTable,
   type OrderTab,
@@ -18,7 +19,11 @@ import {
 } from "@/mock-data"
 import { DevModeWrapper } from "@/shared/components/DevModeWrapper"
 import { DevModeToggle } from "@/shared/components/DevModeToggle"
+import ProtoUpdatedAt from "@/shared/components/ProtoUpdatedAt"
 import NotionDrawer from "@/components/NotionDrawer"
+
+const NOTION_PAGE = "https://www.notion.so/OMS-Order-Dashboard-1-321dd8037729806bb705f6f34c98431c"
+const PROTO_UPDATED_AT = "2026-03-12 20:45"
 
 export default function OrderDashboardPage() {
   const [activeTab, setActiveTab] = useState<OrderTab>("ORDER")
@@ -66,8 +71,17 @@ export default function OrderDashboardPage() {
     }, 800)
   }
 
+  // 현재 탭에 따라 StatusSummary가 가리키는 정책 섹션이 다름 (5.3 ORDER / 5.4 CLAIM)
+  const statusSummarySection =
+    activeTab === "ORDER"
+      ? "5.3 Status Summary Area - ORDER 탭"
+      : "5.4 Status Summary Area - CLAIM 탭"
+
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "grey.50" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      {/* 프로토타입 메인 영역 */}
+      <Box sx={{ flex: 1, minWidth: 0, bgcolor: "grey.50", overflow: "auto" }}>
+
       {/* Breadcrumb */}
       <Box
         sx={{
@@ -76,6 +90,9 @@ export default function OrderDashboardPage() {
           borderColor: "divider",
           px: 3,
           py: 1.5,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         <Breadcrumbs
@@ -85,38 +102,28 @@ export default function OrderDashboardPage() {
           <Link component={NextLink} href="/" color="text.secondary" underline="hover" fontSize={13}>
             Home
           </Link>
-          <Link
-            component={NextLink}
-            href="/common"
-            color="text.secondary"
-            underline="hover"
-            fontSize={13}
-          >
+          <Link component={NextLink} href="/common" color="text.secondary" underline="hover" fontSize={13}>
             Common
           </Link>
-          <Link
-            component={NextLink}
-            href="/common/oms"
-            color="text.secondary"
-            underline="hover"
-            fontSize={13}
-          >
+          <Link component={NextLink} href="/common/oms" color="text.secondary" underline="hover" fontSize={13}>
             OMS
           </Link>
           <Typography color="text.primary" fontSize={13} fontWeight={500}>
             Order Dashboard
           </Typography>
         </Breadcrumbs>
+        <ProtoUpdatedAt value={PROTO_UPDATED_AT} />
       </Box>
 
       <Box sx={{ maxWidth: 1400, mx: "auto", px: 3, py: 3 }}>
-        {/* Header */}
+
+        {/* 5.1 Page Header Area */}
         <DevModeWrapper
           name="DashboardHeader"
           filePath="features/order-dashboard/components/DashboardHeader.tsx"
           enabled={devMode}
           color="#7c3aed"
-          notionBlock="https://www.notion.so/OMS-Order-Dashboard-1-321dd8037729806bb705f6f34c98431c"
+          notionBlock={`${NOTION_PAGE}||5.1 Page Header Area`}
           onNotionClick={setActiveBlock}
         >
           <DashboardHeader
@@ -126,25 +133,27 @@ export default function OrderDashboardPage() {
           />
         </DevModeWrapper>
 
-        {/* Tabs */}
-        <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 2.5 }}>
-          <Tabs
-            value={activeTab}
-            onChange={(_, v) => handleTabChange(v)}
-            sx={{ minHeight: 40, "& .MuiTab-root": { minHeight: 40, py: 0, fontWeight: 600 } }}
-          >
-            <Tab label="ORDER" value="ORDER" />
-            <Tab label="CLAIM" value="CLAIM" />
-          </Tabs>
-        </Box>
+        {/* 5.2 Tab Area */}
+        <DevModeWrapper
+          name="DashboardTabs"
+          filePath="features/order-dashboard/components/DashboardTabs.tsx"
+          enabled={devMode}
+          color="#b45309"
+          notionBlock={`${NOTION_PAGE}||5.2 Tab Area`}
+          onNotionClick={setActiveBlock}
+        >
+          <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 2.5 }}>
+            <DashboardTabs activeTab={activeTab} onChange={handleTabChange} />
+          </Box>
+        </DevModeWrapper>
 
-        {/* Status Summary */}
+        {/* 5.3 / 5.4 Status Summary Area (탭에 따라 달라짐) */}
         <DevModeWrapper
           name="StatusSummary"
           filePath="features/order-dashboard/components/StatusSummary.tsx"
           enabled={devMode}
           color="#0369a1"
-          notionBlock="https://www.notion.so/OMS-Order-Dashboard-1-321dd8037729806bb705f6f34c98431c"
+          notionBlock={`${NOTION_PAGE}||${statusSummarySection}`}
           onNotionClick={setActiveBlock}
         >
           <StatusSummary
@@ -154,13 +163,13 @@ export default function OrderDashboardPage() {
           />
         </DevModeWrapper>
 
-        {/* Order List Table */}
+        {/* 5.5 Order List Table Area */}
         <DevModeWrapper
           name="OrderListTable"
           filePath="features/order-dashboard/components/OrderListTable.tsx"
           enabled={devMode}
           color="#047857"
-          notionBlock="https://www.notion.so/OMS-Order-Dashboard-1-321dd8037729806bb705f6f34c98431c"
+          notionBlock={`${NOTION_PAGE}||5.5 Order List Table Area`}
           onNotionClick={setActiveBlock}
         >
           <OrderListTable
@@ -171,9 +180,14 @@ export default function OrderDashboardPage() {
             onClearFilter={() => setSelectedStatus(null)}
           />
         </DevModeWrapper>
+
       </Box>
 
       <DevModeToggle enabled={devMode} onToggle={() => setDevMode((v) => !v)} />
+
+      </Box>{/* end 프로토타입 메인 영역 */}
+
+      {/* 정책서 사이드 패널 */}
       <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
     </Box>
   )

@@ -59,11 +59,18 @@ mock-data/index.ts                        ← 목업 데이터 (타입은 featur
 
 ## ? 버튼 연결 방법
 
+- **페이지 URL 하나만** 있으면 됩니다. 개별 블록 링크 불필요.
+- 같은 화면의 모든 ? 버튼은 `NOTION_PAGE_URL` 하나를 공유합니다.
+- 드로어는 해당 Notion 페이지 전체 내용을 표시합니다.
+
 ```tsx
 "use client";
 import { useState } from "react";
 import NotionDrawer from "@/components/NotionDrawer";
 import PolicyButton from "@/components/PolicyButton";
+
+// Notion 정책서 페이지 URL (블록 링크 불필요, 페이지 URL 그대로 붙여넣기)
+const NOTION_PAGE_URL = "https://www.notion.so/your-page-url";
 
 export default function Page() {
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
@@ -72,7 +79,7 @@ export default function Page() {
     <div>
       <h2 className="flex items-center">
         검색 필터
-        <PolicyButton notionBlock="notion.so/page-id#block-abc" onClick={setActiveBlock} />
+        <PolicyButton notionBlock={NOTION_PAGE_URL} onClick={setActiveBlock} />
       </h2>
       <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
     </div>
