@@ -4,6 +4,8 @@ import NextLink from "next/link"
 import { Box, Button, Chip, Link, Paper, Stack, Typography } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import CloseIcon from "@mui/icons-material/Close"
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
+import RefreshIcon from "@mui/icons-material/Refresh"
 import type { DashboardOrderItem, OrderTab } from "../models/types"
 import { formatTableDate, getStatusChipProps } from "../modules/utils"
 
@@ -103,6 +105,9 @@ interface Props {
   selectedStatusLabel: string | null
   selectedStatus: string | null
   onClearFilter: () => void
+  isLoading?: boolean
+  isError?: boolean
+  onRetry?: () => void
 }
 
 export function OrderListTable({
@@ -111,6 +116,9 @@ export function OrderListTable({
   selectedStatusLabel,
   selectedStatus,
   onClearFilter,
+  isLoading,
+  isError,
+  onRetry,
 }: Props) {
   return (
     <Paper variant="outlined" sx={{ overflow: "hidden", borderRadius: 1.5 }}>
@@ -153,11 +161,34 @@ export function OrderListTable({
         )}
       </Stack>
 
+      {/* Error state */}
+      {isError && (
+        <Stack alignItems="center" justifyContent="center" spacing={1} sx={{ py: 6 }}>
+          <ErrorOutlineIcon sx={{ fontSize: 28, color: "error.main" }} />
+          <Typography variant="body2" color="text.secondary">
+            Failed to load order list. Please try again.
+          </Typography>
+          {onRetry && (
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<RefreshIcon />}
+              onClick={onRetry}
+              sx={{ textTransform: "none", mt: 0.5 }}
+            >
+              Retry
+            </Button>
+          )}
+        </Stack>
+      )}
+
       {/* DataGrid */}
+      {!isError && (
       <DataGrid
         rows={items}
         columns={columns}
         getRowId={(row) => row.id}
+        loading={isLoading}
         initialState={{
           pagination: { paginationModel: { pageSize: 100 } },
         }}
@@ -192,6 +223,7 @@ export function OrderListTable({
           },
         }}
       />
+      )}
     </Paper>
   )
 }
