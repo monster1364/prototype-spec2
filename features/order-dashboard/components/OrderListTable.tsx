@@ -71,11 +71,21 @@ const columns: GridColDef[] = [
     ),
   },
   {
-    field: "shippingStatus",
-    headerName: "Shipping Status",
-    width: 150,
+    field: "fulfillmentNo",
+    headerName: "Fulfillment No",
+    width: 175,
     renderCell: (params) => (
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="caption" sx={{ fontFamily: "monospace", color: params.value === "-" ? "text.disabled" : "text.primary" }}>
+        {params.value}
+      </Typography>
+    ),
+  },
+  {
+    field: "fulfillmentStatus",
+    headerName: "Fulfillment Status",
+    width: 155,
+    renderCell: (params) => (
+      <Typography variant="body2" color={params.value === "-" ? "text.disabled" : "text.secondary"}>
         {params.value}
       </Typography>
     ),

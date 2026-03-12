@@ -12,7 +12,8 @@ export interface DashboardOrderItem {
   orderDate: string
   ordererEmail: string
   status: string
-  shippingStatus: string
+  fulfillmentNo: string
+  fulfillmentStatus: string
   recipientName: string
   tab: OrderTab
   detailStatus: string
