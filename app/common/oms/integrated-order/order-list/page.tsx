@@ -15,7 +15,7 @@ import { mockOrderListItems, type OrderListItem } from "@/mock-data"
 import ProtoUpdatedAt from "@/shared/components/ProtoUpdatedAt"
 
 const NOTION_PAGE = "https://www.notion.so/OMS-Order-list-321dd803772980388729e836f5d33ffe"
-const PROTO_UPDATED_AT = "2026-03-12 23:30"
+const PROTO_UPDATED_AT = "2026-03-12 23:31"
 
 function parseOrderDate(dateStr: string): Date {
   // "2026.03.12 09:32:11" → Date
