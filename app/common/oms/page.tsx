@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 const pages = [
+  { name: 'Order Dashboard', path: '/common/oms/dashboard', description: '주문/클레임 현황 대시보드' },
   { name: '주문 목록', path: '/common/oms/order', description: '전체 주문 조회 및 관리' },
 ]
 

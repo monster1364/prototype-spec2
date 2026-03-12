@@ -9,9 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/mdx": "^14.2.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/material": "^7.3.9",
+    "@mui/x-data-grid": "^8.27.5",
+    "@next/mdx": "^14.2.0",
     "@notionhq/client": "^2.2.15",
     "@types/mdx": "^2.0.13",
     "next": "14.2.0",

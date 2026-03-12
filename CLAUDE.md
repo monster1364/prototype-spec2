@@ -15,14 +15,46 @@
 - Tailwind CSS
 - TypeScript
 - 상태관리: `useState` 만 사용
+- OMS, PIM, ADMIN 서비스는 기본 UI는 MUI 사용
 
 ## 파일 구조 규칙
 
+프로토타입은 실제 프론트엔드 팀의 FSD(Feature-Sliced Design) 구조를 따릅니다.
+개발자가 프로토타입을 참고해 실제품을 구현할 수 있도록 동일한 구조로 작성합니다.
+
 ```
-app/{서비스}/{플랫폼}/{도메인}/page.tsx   ← Claude Code가 생성
-components/                               ← 재사용 컴포넌트
-mock-data/index.ts                        ← 목업 데이터 (타입 포함)
+app/{서비스}/{플랫폼}/{도메인}/page.tsx   ← 얇은 페이지 (상태 관리 + 컴포넌트 조합만)
+features/{feature-name}/                  ← 기능 단위 모듈 (FSD)
+  models/
+    types.ts                              ← 도메인 타입 정의 (API 타입 포함)
+  modules/
+    constants.ts                          ← 도메인 상수
+    utils.ts                              ← 유틸리티/포맷 함수
+  components/
+    {FeatureName}Header.tsx               ← 헤더 영역 컴포넌트
+    {FeatureName}List.tsx                 ← 리스트/테이블 컴포넌트
+    {FeatureName}Summary.tsx              ← 요약/카드 컴포넌트
+  index.tsx                               ← Public API (외부 import 진입점)
+shared/
+  provider/
+    MuiProvider.tsx                       ← MUI 테마 설정
+  components/                            ← 공통 재사용 컴포넌트
+  utils/                                 ← 공통 유틸리티
+mock-data/index.ts                        ← 목업 데이터 (타입은 features에서 import)
 ```
+
+### 컴포넌트 작성 규칙
+
+1. **page.tsx는 얇게** — 상태(useState)와 이벤트 핸들러만, UI는 features 컴포넌트에 위임
+2. **타입은 features에** — `features/{name}/models/types.ts` 에 정의, mock-data는 import해서 사용
+3. **컴포넌트는 features에** — 화면 영역별로 분리 (Header / Summary / Table 등)
+4. **Public API는 index.tsx** — 외부에서는 `@/features/{name}` 으로만 import
+
+### mock-data 규칙
+
+- 실제 데이터(rows)는 `mock-data/index.ts` 에서 관리
+- 타입 정의는 `features/{name}/models/types.ts` 에서 정의 후 mock-data에서 import
+- mock-data는 features의 타입을 re-export 할 수 있음
 
 ## ? 버튼 연결 방법
 
@@ -66,6 +98,7 @@ app/{서비스}/{플랫폼}/{도메인}/page.tsx 를 만들어줘.
 ```
 
 예시:
+
 ```
 https://notion.so/abc123 를 읽고
 app/common/oms/dashboard/page.tsx 를 만들어줘.

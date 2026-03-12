@@ -179,6 +179,219 @@ export const mockProducts: Product[] = [
   },
 ]
 
+// ----- OMS Order Dashboard -----
+// 타입은 features/order-dashboard/models/types.ts 에서 가져옵니다.
+
+import type {
+  OrderTab,
+  DashboardOrderItem,
+  DashboardStatusSection,
+} from '@/features/order-dashboard/models/types'
+
+export type { OrderTab, DashboardOrderItem, DashboardStatusSection }
+
+export const mockOrderStatusSections: DashboardStatusSection[] = [
+  {
+    sectionTitle: 'Order',
+    groups: [
+      {
+        groupLabel: 'Awaiting',
+        isFinalized: false,
+        subStates: [
+          { key: 'order-pending', label: 'Pending', count: 12 },
+        ],
+      },
+      {
+        groupLabel: 'In Progress',
+        isFinalized: false,
+        subStates: [
+          { key: 'order-collected', label: 'Collected', count: 8 },
+          { key: 'order-partly-confirmed', label: 'Partly confirmed', count: 3 },
+          { key: 'order-partial-shipment-requested', label: 'Partial shipment requested', count: 2 },
+          { key: 'order-shipment-requested', label: 'Shipment Requested', count: 25 },
+        ],
+      },
+      {
+        groupLabel: 'Finalized',
+        isFinalized: true,
+        subStates: [
+          { key: 'order-deleted', label: 'Deleted', count: 1 },
+          { key: 'order-canceled', label: 'Canceled', count: 7 },
+          { key: 'order-completed', label: 'Completed', count: 143 },
+        ],
+      },
+    ],
+  },
+  {
+    sectionTitle: 'Shipment',
+    groups: [
+      {
+        groupLabel: 'In Progress',
+        isFinalized: false,
+        subStates: [
+          { key: 'shipment-picking-requested', label: 'Picking Requested', count: 18 },
+          { key: 'shipment-picked', label: 'Picked', count: 6 },
+          { key: 'shipment-packed', label: 'Packed', count: 9 },
+        ],
+      },
+      {
+        groupLabel: 'Finalized',
+        isFinalized: true,
+        subStates: [
+          { key: 'shipment-canceled', label: 'Canceled', count: 4 },
+          { key: 'shipment-picking-rejected', label: 'Picking Rejected', count: 2 },
+          { key: 'shipment-delivered', label: 'Delivered', count: 89 },
+          { key: 'shipment-lost', label: 'Lost', count: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    sectionTitle: 'Store Pickup',
+    groups: [
+      {
+        groupLabel: 'In Progress',
+        isFinalized: false,
+        subStates: [
+          { key: 'pickup-shipped', label: 'Shipped', count: 5 },
+          { key: 'pickup-prepared', label: 'Prepared', count: 3 },
+        ],
+      },
+      {
+        groupLabel: 'Finalized',
+        isFinalized: true,
+        subStates: [
+          { key: 'pickup-completed', label: 'Completed', count: 22 },
+          { key: 'pickup-canceled', label: 'Canceled', count: 1 },
+        ],
+      },
+    ],
+  },
+]
+
+export const mockClaimStatusSections: DashboardStatusSection[] = [
+  {
+    sectionTitle: 'Return',
+    groups: [
+      {
+        groupLabel: 'Awaiting',
+        isFinalized: false,
+        subStates: [
+          { key: 'return-pending', label: 'Pending', count: 6 },
+        ],
+      },
+      {
+        groupLabel: 'In Progress',
+        isFinalized: false,
+        subStates: [
+          { key: 'return-pickup-requested', label: 'Pickup Requested', count: 4 },
+          { key: 'return-pickup-ongoing', label: 'Pickup Ongoing', count: 3 },
+          { key: 'return-received', label: 'Received', count: 8 },
+        ],
+      },
+      {
+        groupLabel: 'Finalized',
+        isFinalized: true,
+        subStates: [
+          { key: 'return-refunded', label: 'Refunded', count: 31 },
+          { key: 'return-canceled', label: 'Canceled', count: 2 },
+        ],
+      },
+    ],
+  },
+  {
+    sectionTitle: 'Exchange',
+    groups: [
+      {
+        groupLabel: 'Awaiting',
+        isFinalized: false,
+        subStates: [
+          { key: 'exchange-pending', label: 'Pending', count: 4 },
+        ],
+      },
+      {
+        groupLabel: 'In Progress',
+        isFinalized: false,
+        subStates: [
+          { key: 'exchange-pickup-requested', label: 'Pickup Requested', count: 2 },
+          { key: 'exchange-pickup-ongoing', label: 'Pickup Ongoing', count: 1 },
+          { key: 'exchange-received', label: 'Received', count: 3 },
+          { key: 'exchange-inspected', label: 'Inspected', count: 2 },
+          { key: 'exchange-shipment-requested', label: 'Shipment Requested', count: 5 },
+        ],
+      },
+      {
+        groupLabel: 'Finalized',
+        isFinalized: true,
+        subStates: [
+          { key: 'exchange-exchanged', label: 'Exchanged', count: 19 },
+          { key: 'exchange-canceled', label: 'Canceled', count: 3 },
+        ],
+      },
+    ],
+  },
+  {
+    sectionTitle: 'Reshipment',
+    groups: [
+      {
+        groupLabel: 'In Progress',
+        isFinalized: false,
+        subStates: [
+          { key: 'reshipment-picking-requested', label: 'Picking Requested', count: 3 },
+          { key: 'reshipment-picked', label: 'Picked', count: 2 },
+          { key: 'reshipment-packed', label: 'Packed', count: 4 },
+        ],
+      },
+      {
+        groupLabel: 'Finalized',
+        isFinalized: true,
+        subStates: [
+          { key: 'reshipment-canceled', label: 'Canceled', count: 1 },
+          { key: 'reshipment-picking-rejected', label: 'Picking Rejected', count: 0 },
+          { key: 'reshipment-delivered', label: 'Delivered', count: 14 },
+          { key: 'reshipment-lost', label: 'Lost', count: 0 },
+        ],
+      },
+    ],
+  },
+]
+
+export const mockDashboardItems: DashboardOrderItem[] = [
+  // ORDER tab
+  { id: 'd001', channel: 'OWN', orderNo: 'ORD-2026-010001', orderDate: '2026-03-12T09:15:00Z', ordererEmail: 'kim.jiyeon@example.com', status: 'Pending', shippingStatus: '-', recipientName: '김지연', tab: 'ORDER', detailStatus: 'order-pending' },
+  { id: 'd002', channel: 'Amazon', orderNo: 'ORD-2026-010002', orderDate: '2026-03-12T10:30:00Z', ordererEmail: 'john.smith@example.com', status: 'Pending', shippingStatus: '-', recipientName: 'John Smith', tab: 'ORDER', detailStatus: 'order-pending' },
+  { id: 'd003', channel: 'Shopify', orderNo: 'ORD-2026-010003', orderDate: '2026-03-11T14:20:00Z', ordererEmail: 'park.junho@example.com', status: 'Collected', shippingStatus: '-', recipientName: '박준호', tab: 'ORDER', detailStatus: 'order-collected' },
+  { id: 'd004', channel: 'Amazon', orderNo: 'ORD-2026-010004', orderDate: '2026-03-11T17:00:00Z', ordererEmail: 'anna.kim@example.com', status: 'Partly confirmed', shippingStatus: '-', recipientName: 'Anna Kim', tab: 'ORDER', detailStatus: 'order-partly-confirmed' },
+  { id: 'd005', channel: 'OWN', orderNo: 'ORD-2026-010005', orderDate: '2026-03-11T16:45:00Z', ordererEmail: 'lee.suji@example.com', status: 'Shipment Requested', shippingStatus: 'Picking Requested', recipientName: '이수지', tab: 'ORDER', detailStatus: 'order-shipment-requested' },
+  { id: 'd006', channel: 'Rakuten', orderNo: 'ORD-2026-010006', orderDate: '2026-03-11T11:00:00Z', ordererEmail: 'tanaka@example.com', status: 'Shipment Requested', shippingStatus: 'Picking Requested', recipientName: '田中一郎', tab: 'ORDER', detailStatus: 'order-shipment-requested' },
+  { id: 'd007', channel: 'LINE', orderNo: 'ORD-2026-010007', orderDate: '2026-03-10T09:00:00Z', ordererEmail: 'choi.minjung@example.com', status: 'Shipment Requested', shippingStatus: 'Picking Requested', recipientName: '최민정', tab: 'ORDER', detailStatus: 'order-shipment-requested' },
+  { id: 'd008', channel: 'OWN', orderNo: 'ORD-2026-010008', orderDate: '2026-03-10T13:30:00Z', ordererEmail: 'jung.hyunwoo@example.com', status: 'Shipment Requested', shippingStatus: 'Picking Requested', recipientName: '정현우', tab: 'ORDER', detailStatus: 'shipment-picking-requested' },
+  { id: 'd009', channel: 'Amazon', orderNo: 'ORD-2026-010009', orderDate: '2026-03-10T15:00:00Z', ordererEmail: 'emily.jones@example.com', status: 'Shipment Requested', shippingStatus: 'Picking Requested', recipientName: 'Emily Jones', tab: 'ORDER', detailStatus: 'shipment-picking-requested' },
+  { id: 'd010', channel: 'Shopify', orderNo: 'ORD-2026-010010', orderDate: '2026-03-09T10:00:00Z', ordererEmail: 'oh.sungmin@example.com', status: 'Shipment Requested', shippingStatus: 'Picked', recipientName: '오성민', tab: 'ORDER', detailStatus: 'shipment-picked' },
+  { id: 'd011', channel: 'OWN', orderNo: 'ORD-2026-010011', orderDate: '2026-03-09T11:30:00Z', ordererEmail: 'yoon.seoyeon@example.com', status: 'Shipment Requested', shippingStatus: 'Packed', recipientName: '윤서연', tab: 'ORDER', detailStatus: 'shipment-packed' },
+  { id: 'd012', channel: 'OWN', orderNo: 'ORD-2026-010012', orderDate: '2026-03-01T09:00:00Z', ordererEmail: 'lim.chaewon@example.com', status: 'Completed', shippingStatus: 'Delivered', recipientName: '임채원', tab: 'ORDER', detailStatus: 'shipment-delivered' },
+  { id: 'd013', channel: 'Amazon', orderNo: 'ORD-2026-010013', orderDate: '2026-03-02T14:00:00Z', ordererEmail: 'michael.brown@example.com', status: 'Completed', shippingStatus: 'Delivered', recipientName: 'Michael Brown', tab: 'ORDER', detailStatus: 'shipment-delivered' },
+  { id: 'd014', channel: 'LINE', orderNo: 'ORD-2026-010014', orderDate: '2026-03-12T08:00:00Z', ordererEmail: 'seo.dahyun@example.com', status: 'Completed', shippingStatus: 'Delivered', recipientName: '서다현', tab: 'ORDER', detailStatus: 'shipment-delivered' },
+  { id: 'd015', channel: 'OWN', orderNo: 'ORD-2026-010015', orderDate: '2026-03-03T16:00:00Z', ordererEmail: 'han.minji@example.com', status: 'Completed', shippingStatus: '-', recipientName: '한민지', tab: 'ORDER', detailStatus: 'order-completed' },
+  { id: 'd016', channel: 'Rakuten', orderNo: 'ORD-2026-010016', orderDate: '2026-03-04T08:30:00Z', ordererEmail: 'yamamoto@example.com', status: 'Completed', shippingStatus: '-', recipientName: '山本花子', tab: 'ORDER', detailStatus: 'order-completed' },
+  { id: 'd017', channel: 'OWN', orderNo: 'ORD-2026-010017', orderDate: '2026-03-05T12:00:00Z', ordererEmail: 'bae.jungho@example.com', status: 'Canceled', shippingStatus: '-', recipientName: '배정호', tab: 'ORDER', detailStatus: 'order-canceled' },
+  { id: 'd018', channel: 'Shopify', orderNo: 'ORD-2026-010018', orderDate: '2026-03-06T15:00:00Z', ordererEmail: 'sarah.lee@example.com', status: 'Canceled', shippingStatus: '-', recipientName: 'Sarah Lee', tab: 'ORDER', detailStatus: 'order-canceled' },
+  { id: 'd019', channel: 'OWN', orderNo: 'ORD-2026-010019', orderDate: '2026-03-11T10:00:00Z', ordererEmail: 'kwon.hyunjin@example.com', status: 'Shipped', shippingStatus: 'Shipped', recipientName: '권현진', tab: 'ORDER', detailStatus: 'pickup-shipped' },
+  { id: 'd020', channel: 'OWN', orderNo: 'ORD-2026-010020', orderDate: '2026-03-07T13:00:00Z', ordererEmail: 'moon.jaeho@example.com', status: 'Completed', shippingStatus: 'Completed', recipientName: '문재호', tab: 'ORDER', detailStatus: 'pickup-completed' },
+  // CLAIM tab
+  { id: 'c001', channel: 'OWN', orderNo: 'RET-2026-005001', orderDate: '2026-03-12T09:00:00Z', ordererEmail: 'kim.jiyeon@example.com', status: 'Pending', shippingStatus: '-', recipientName: '김지연', tab: 'CLAIM', detailStatus: 'return-pending' },
+  { id: 'c002', channel: 'Shopify', orderNo: 'RET-2026-005002', orderDate: '2026-03-11T14:00:00Z', ordererEmail: 'david.park@example.com', status: 'Pickup Requested', shippingStatus: '-', recipientName: 'David Park', tab: 'CLAIM', detailStatus: 'return-pickup-requested' },
+  { id: 'c003', channel: 'OWN', orderNo: 'RET-2026-005003', orderDate: '2026-03-10T11:00:00Z', ordererEmail: 'choi.yuri@example.com', status: 'Received', shippingStatus: '-', recipientName: '최유리', tab: 'CLAIM', detailStatus: 'return-received' },
+  { id: 'c004', channel: 'OWN', orderNo: 'RET-2026-005004', orderDate: '2026-03-01T09:00:00Z', ordererEmail: 'kim.nari@example.com', status: 'Refunded', shippingStatus: '-', recipientName: '김나리', tab: 'CLAIM', detailStatus: 'return-refunded' },
+  { id: 'c005', channel: 'Amazon', orderNo: 'RET-2026-005005', orderDate: '2026-03-02T16:00:00Z', ordererEmail: 'tom.wilson@example.com', status: 'Refunded', shippingStatus: '-', recipientName: 'Tom Wilson', tab: 'CLAIM', detailStatus: 'return-refunded' },
+  { id: 'c006', channel: 'OWN', orderNo: 'EXC-2026-003001', orderDate: '2026-03-12T10:00:00Z', ordererEmail: 'park.sunho@example.com', status: 'Pending', shippingStatus: '-', recipientName: '박선호', tab: 'CLAIM', detailStatus: 'exchange-pending' },
+  { id: 'c007', channel: 'Amazon', orderNo: 'EXC-2026-003002', orderDate: '2026-03-09T13:00:00Z', ordererEmail: 'jessica.cho@example.com', status: 'Received', shippingStatus: '-', recipientName: 'Jessica Cho', tab: 'CLAIM', detailStatus: 'exchange-received' },
+  { id: 'c008', channel: 'OWN', orderNo: 'EXC-2026-003003', orderDate: '2026-03-11T15:30:00Z', ordererEmail: 'kang.minji@example.com', status: 'Shipment Requested', shippingStatus: 'Picking Requested', recipientName: '강민지', tab: 'CLAIM', detailStatus: 'exchange-shipment-requested' },
+  { id: 'c009', channel: 'OWN', orderNo: 'EXC-2026-003004', orderDate: '2026-03-03T11:00:00Z', ordererEmail: 'lee.jaemin@example.com', status: 'Exchanged', shippingStatus: 'Delivered', recipientName: '이재민', tab: 'CLAIM', detailStatus: 'exchange-exchanged' },
+  { id: 'c010', channel: 'Shopify', orderNo: 'RSH-2026-002001', orderDate: '2026-03-11T15:00:00Z', ordererEmail: 'yoon.hyuna@example.com', status: 'Picking Requested', shippingStatus: 'Picking Requested', recipientName: '윤현아', tab: 'CLAIM', detailStatus: 'reshipment-picking-requested' },
+  { id: 'c011', channel: 'Amazon', orderNo: 'RSH-2026-002002', orderDate: '2026-03-04T10:00:00Z', ordererEmail: 'mike.yang@example.com', status: 'Delivered', shippingStatus: 'Delivered', recipientName: 'Mike Yang', tab: 'CLAIM', detailStatus: 'reshipment-delivered' },
+]
+
 // ----- 공통 유틸 -----
 
 export function formatPrice(amount: number): string {
