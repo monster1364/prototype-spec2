@@ -57,36 +57,6 @@ mock-data/index.ts                        ← 목업 데이터 (타입은 featur
 - 타입 정의는 `features/{name}/models/types.ts` 에서 정의 후 mock-data에서 import
 - mock-data는 features의 타입을 re-export 할 수 있음
 
-## ? 버튼 연결 방법
-
-- **페이지 URL 하나만** 있으면 됩니다. 개별 블록 링크 불필요.
-- 같은 화면의 모든 ? 버튼은 `NOTION_PAGE_URL` 하나를 공유합니다.
-- 드로어는 해당 Notion 페이지 전체 내용을 표시합니다.
-
-```tsx
-"use client";
-import { useState } from "react";
-import NotionDrawer from "@/components/NotionDrawer";
-import PolicyButton from "@/components/PolicyButton";
-
-// Notion 정책서 페이지 URL (블록 링크 불필요, 페이지 URL 그대로 붙여넣기)
-const NOTION_PAGE_URL = "https://www.notion.so/your-page-url";
-
-export default function Page() {
-  const [activeBlock, setActiveBlock] = useState<string | null>(null);
-
-  return (
-    <div>
-      <h2 className="flex items-center">
-        검색 필터
-        <PolicyButton notionBlock={NOTION_PAGE_URL} onClick={setActiveBlock} />
-      </h2>
-      <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
-    </div>
-  );
-}
-```
-
 ---
 
 ## PM이 쓰는 프롬프트 (복붙)
