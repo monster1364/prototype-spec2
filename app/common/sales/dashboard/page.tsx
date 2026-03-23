@@ -26,6 +26,7 @@ import {
   mockProductPerformance,
   mockSalesInventory,
   mockInboundItems,
+  mockRestockAlerts,
   mockDtcMtcSummary,
   mockCustomerAnalysis,
   mockBestsellers,
@@ -196,6 +197,7 @@ export default function SalesDashboardPage() {
             inventory={mockSalesInventory}
             inbound={mockInboundItems}
             dtcMtc={mockDtcMtcSummary}
+            restockAlerts={mockRestockAlerts}
           />
         </DevModeWrapper>
 

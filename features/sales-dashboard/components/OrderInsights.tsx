@@ -30,11 +30,7 @@ export function OrderInsights({ bestsellers, orderPattern }: Props) {
       {/* 헤더 */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <Typography fontWeight={700} fontSize={15}>주문 인사이트</Typography>
-        <Chip
-          label="실데이터 · OMS 기반"
-          size="small"
-          sx={{ fontSize: 11, bgcolor: '#dbeafe', color: '#1d4ed8', fontWeight: 600 }}
-        />
+        <Chip label="매출 연동 필요" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
       </Box>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 2.5 }}>

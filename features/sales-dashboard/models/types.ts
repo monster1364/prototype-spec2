@@ -80,6 +80,14 @@ export interface InboundItem {
   inboundType: 'restock' | 'new'
 }
 
+export interface RestockAlertItem {
+  productName: string
+  category: string
+  alertCount: number             // 재입고 알림신청 누적 건수 (더미 · 알림 시스템 연동 필요)
+  currentStock: number           // 현재고 (더미 · WMS 연동 필요)
+  daysToSellOut: number          // 소진예상일
+}
+
 export interface DtcMtcSummary {
   dtcRevenue: number             // DTC(자사몰) 매출
   dtcRatio: number               // %

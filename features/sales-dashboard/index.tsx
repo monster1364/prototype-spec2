@@ -21,6 +21,7 @@ export type {
   ProductClassification,
   SalesInventoryItem,
   InboundItem,
+  RestockAlertItem,
   DtcMtcSummary,
   BestsellerItem,
   CancelReasonItem,

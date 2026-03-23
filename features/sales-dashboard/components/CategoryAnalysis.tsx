@@ -23,7 +23,7 @@ export function CategoryAnalysis({ categories, collections }: Props) {
         <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 1.5, height: "100%" }}>
           <Stack direction="row" alignItems="center" gap={1} mb={2}>
             <Typography variant="subtitle2" fontWeight={700} fontSize={13}>카테고리별 판매</Typography>
-            <Chip label="일부 적용 · 건수 OMS 기반" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
+            <Chip label="카테고리 매출 연동 필요" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
           </Stack>
           <Stack spacing={2}>
             {categories.map((cat) => (
@@ -61,7 +61,7 @@ export function CategoryAnalysis({ categories, collections }: Props) {
           <Box sx={{ px: 2.5, py: 2, borderBottom: "1px solid", borderColor: "divider" }}>
             <Stack direction="row" alignItems="center" gap={1}>
               <Typography variant="subtitle2" fontWeight={700} fontSize={13}>컬렉션별 판매 순위</Typography>
-              <Chip label="일부 적용 · PIM 컬렉션 기반" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
+              <Chip label="컬렉션 매출 연동 필요" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
             </Stack>
           </Box>
           <Table size="small">

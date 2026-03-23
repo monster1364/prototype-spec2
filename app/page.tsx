@@ -8,6 +8,7 @@ const services = [
     domains: [
       { name: 'OMS', path: '/common/oms' },
       { name: 'PIM', path: '/common/pim' },
+      { name: 'Sales', path: '/common/sales' },
     ],
   },
   {

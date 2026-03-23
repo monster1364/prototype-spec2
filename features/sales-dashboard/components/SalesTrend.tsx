@@ -37,7 +37,7 @@ export function SalesTrend({ data, periodUnit }: Props) {
           <Typography variant="subtitle2" fontWeight={700} fontSize={13}>
             매출 추이 <Typography component="span" variant="caption" color="text.secondary">({periodLabel})</Typography>
           </Typography>
-          <Chip label="일부 적용 · 주문 증감 OMS 기반" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
+          <Chip label="매출 연동 필요" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
         </Stack>
         <Stack direction="row" gap={2}>
           <Stack direction="row" alignItems="center" gap={0.5}>

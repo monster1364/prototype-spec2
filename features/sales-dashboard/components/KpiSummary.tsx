@@ -94,8 +94,7 @@ export function KpiSummary({ kpi }: Props) {
     <Box mb={2.5}>
       <Stack direction="row" alignItems="center" gap={1} mb={1}>
         <Typography fontWeight={700} fontSize={14}>KPI 요약</Typography>
-        <Chip label="일부 적용 · 주문 수 OMS 기반" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
-        <Chip label="매출·전환율·로스 연동 필요" size="small" sx={{ fontSize: 11, bgcolor: '#f1f5f9', color: '#475569', fontWeight: 600 }} />
+        <Chip label="매출·전환율·로스 연동 필요" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
       </Stack>
       <Grid container spacing={2}>
         {cards.map((card) => (

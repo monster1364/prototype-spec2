@@ -475,6 +475,7 @@ import type {
   CustomerAnalysisData,
   SalesInventoryItem,
   InboundItem,
+  RestockAlertItem,
   DtcMtcSummary,
   BestsellerItem,
   OrderPatternData,
@@ -493,6 +494,7 @@ export type {
   CustomerAnalysisData,
   SalesInventoryItem,
   InboundItem,
+  RestockAlertItem,
   DtcMtcSummary,
   BestsellerItem,
   OrderPatternData,
@@ -501,17 +503,19 @@ export type {
   MarketingKPI,
 }
 
+// OMS 실데이터: 807건 (DELETED 314 제외 493건), GIFT 134건(16.6%), 취소 194건
+// 판매 로스: 재고 부족 취소 60건 → 기회 손실 추정 (평균 AOV 324K × 60건)
 export const mockSalesKPI: SalesDashboardKPI = {
   totalRevenue: 1_245_800_000,
   totalRevenueDelta: 12.3,
-  totalOrders: 493,         // OMS 실데이터: 807건 중 DELETED(314) 제외 3개월 기준
-  totalOrdersDelta: 38.2,   // OMS 실데이터: 2월 주문 급증(1월 201→2월 327, +62.7%) 반영
+  totalOrders: 493,
+  totalOrdersDelta: 38.2,
   aov: 324_200,
   aovDelta: 3.2,
   conversionRate: 4.7,
   conversionRateDelta: -0.3,
-  salesLoss: 48_200_000,
-  salesLossDelta: -15.4,
+  salesLoss: 19_452_000,    // 재고 부족 취소 60건 × AOV 324K
+  salesLossDelta: 42.8,     // 전기간 대비 증가 (재고 부족 이슈 심화)
   restockAlertCount: 312,
   restockAlertDelta: 28.6,
 }
@@ -562,43 +566,54 @@ export const mockCollectionSales: CollectionSales[] = [
   { rank: 8, collection: 'Nail',     revenue:  10_800_000, quantity: 196,  deltaRate: -24.5 },
 ]
 
+// 출처: IIC_OMS + PIM CSV 실제 상품명 기반, 수량/매출은 3개월 스케일
 export const mockProductPerformance: ProductPerformanceItem[] = [
-  { rank: 1,  productName: '네일 포크',              category: '커틀러리',       quantity: 810,  revenue: 136_080_000, salesVelocity: 27.0, conversionRate: 7.8, currentStock: 45,  sellThroughRate: 94.7, daysToSellOut: 2,   classification: 'opportunity' },
-  { rank: 2,  productName: '라인 에스프레소 베이지', category: '드링크웨어',     quantity: 680,  revenue:  48_960_000, salesVelocity: 22.7, conversionRate: 5.4, currentStock: 120, sellThroughRate: 85.0, daysToSellOut: 5,   classification: 'opportunity' },
-  { rank: 3,  productName: '웨이브 레스트 2P 세트',  category: '테이블 액세서리', quantity: 542,  revenue:  41_192_000, salesVelocity: 18.1, conversionRate: 6.2, currentStock: 38,  sellThroughRate: 93.4, daysToSellOut: 2,   classification: 'opportunity' },
-  { rank: 4,  productName: '네일 카푸치노',          category: '드링크웨어',     quantity: 498,  revenue:  28_884_000, salesVelocity: 16.6, conversionRate: 4.9, currentStock: 95,  sellThroughRate: 83.9, daysToSellOut: 6,   classification: 'opportunity' },
-  { rank: 5,  productName: '체스 디저트 포크',       category: '커틀러리',       quantity: 430,  revenue:  60_200_000, salesVelocity: 14.3, conversionRate: 4.1, currentStock: 140, sellThroughRate: 75.4, daysToSellOut: 10,  classification: 'normal' },
-  { rank: 6,  productName: '라인 카푸치노 베이지',   category: '드링크웨어',     quantity: 390,  revenue:  17_940_000, salesVelocity: 13.0, conversionRate: 5.7, currentStock: 88,  sellThroughRate: 81.6, daysToSellOut: 7,   classification: 'opportunity' },
-  { rank: 7,  productName: '네일 에스프레소',        category: '드링크웨어',     quantity: 362,  revenue:  23_168_000, salesVelocity: 12.1, conversionRate: 3.8, currentStock: 110, sellThroughRate: 76.7, daysToSellOut: 9,   classification: 'normal' },
-  { rank: 8,  productName: '닷 듀오 세트 블랙',      category: '커틀러리',       quantity: 310,  revenue:  13_950_000, salesVelocity: 10.3, conversionRate: 5.2, currentStock: 76,  sellThroughRate: 80.3, daysToSellOut: 7,   classification: 'normal' },
-  { rank: 9,  productName: '필로우 스푼',            category: '커틀러리',       quantity: 288,  revenue:  13_824_000, salesVelocity: 9.6,  conversionRate: 3.2, currentStock: 65,  sellThroughRate: 81.6, daysToSellOut: 7,   classification: 'normal' },
-  { rank: 10, productName: '웨이브 나이프',          category: '커틀러리',       quantity: 262,  revenue:  13_624_000, salesVelocity: 8.7,  conversionRate: 3.0, currentStock: 98,  sellThroughRate: 72.8, daysToSellOut: 11,  classification: 'normal' },
-  { rank: 11, productName: 'SD카드',                category: '테이블 액세서리', quantity: 240,  revenue:  20_160_000, salesVelocity: 8.0,  conversionRate: 2.8, currentStock: 82,  sellThroughRate: 74.5, daysToSellOut: 10,  classification: 'normal' },
-  { rank: 12, productName: '미니 디저트 스푼 세트',  category: '커틀러리',       quantity: 218,  revenue:  12_208_000, salesVelocity: 7.3,  conversionRate: 2.5, currentStock: 54,  sellThroughRate: 80.1, daysToSellOut: 7,   classification: 'normal' },
-  { rank: 13, productName: '너드 디저트 세트',       category: '커틀러리',       quantity: 184,  revenue:  12_512_000, salesVelocity: 6.1,  conversionRate: 2.2, currentStock: 42,  sellThroughRate: 81.4, daysToSellOut: 7,   classification: 'normal' },
-  { rank: 14, productName: '힐 커터',               category: '테이블 액세서리', quantity: 142,  revenue:   9_230_000, salesVelocity: 4.7,  conversionRate: 1.9, currentStock: 38,  sellThroughRate: 78.9, daysToSellOut: 8,   classification: 'normal' },
-  { rank: 15, productName: '너드 버터 나이프',       category: '커틀러리',       quantity: 120,  revenue:   6_240_000, salesVelocity: 4.0,  conversionRate: 1.5, currentStock: 32,  sellThroughRate: 78.9, daysToSellOut: 8,   classification: 'normal' },
-  { rank: 16, productName: '립스틱 오프너 (단종 예정)', category: '테이블 액세서리', quantity: 28, revenue:   1_344_000, salesVelocity: 0.9,  conversionRate: 0.8, currentStock: 89,  sellThroughRate: 23.9, daysToSellOut: 99,  classification: 'risk' },
-  { rank: 17, productName: '펜슬 스푼 (구형)',       category: '커틀러리',       quantity: 18,   revenue:     756_000, salesVelocity: 0.6,  conversionRate: 0.6, currentStock: 62,  sellThroughRate: 22.5, daysToSellOut: 103, classification: 'risk' },
-  { rank: 18, productName: '하프 웨이브 포크 세트',  category: '테이블 액세서리', quantity: 10,  revenue:     580_000, salesVelocity: 0.3,  conversionRate: 0.4, currentStock: 48,  sellThroughRate: 17.2, daysToSellOut: 160, classification: 'risk' },
-  { rank: 19, productName: '크래커 듀오 세트 (단종)', category: '커틀러리',      quantity: 6,    revenue:     228_000, salesVelocity: 0.2,  conversionRate: 0.3, currentStock: 28,  sellThroughRate: 17.6, daysToSellOut: 140, classification: 'risk' },
-  { rank: 20, productName: '너드 버터 나이프 (단종)', category: '커틀러리',      quantity: 0,    revenue:           0, salesVelocity: 0.0,  conversionRate: 0.0, currentStock: 15,  sellThroughRate:  0.0, daysToSellOut: null, classification: 'risk' },
+  { rank: 1,  productName: '체스 디저트 포크',     category: '커틀러리',        quantity: 810,  revenue: 136_080_000, salesVelocity: 27.0, conversionRate: 7.8, currentStock: 45,  sellThroughRate: 94.7, daysToSellOut: 2,   classification: 'opportunity' },
+  { rank: 2,  productName: '웨이브 트레이',         category: '테이블 액세서리', quantity: 680,  revenue:  48_960_000, salesVelocity: 22.7, conversionRate: 5.4, currentStock: 38,  sellThroughRate: 94.7, daysToSellOut: 2,   classification: 'opportunity' },
+  { rank: 3,  productName: '웨이브 홀더',           category: '테이블 액세서리', quantity: 542,  revenue:  28_184_000, salesVelocity: 18.1, conversionRate: 6.2, currentStock: 52,  sellThroughRate: 91.2, daysToSellOut: 3,   classification: 'opportunity' },
+  { rank: 4,  productName: '웨이브 스푼',           category: '커틀러리',        quantity: 498,  revenue:  11_952_000, salesVelocity: 16.6, conversionRate: 4.9, currentStock: 95,  sellThroughRate: 83.9, daysToSellOut: 6,   classification: 'opportunity' },
+  { rank: 5,  productName: '체스 나이프',           category: '커틀러리',        quantity: 430,  revenue:   5_805_000, salesVelocity: 14.3, conversionRate: 4.1, currentStock: 140, sellThroughRate: 75.4, daysToSellOut: 10,  classification: 'normal' },
+  { rank: 6,  productName: '필로우 스푼',           category: '커틀러리',        quantity: 390,  revenue:  12_870_000, salesVelocity: 13.0, conversionRate: 5.7, currentStock: 88,  sellThroughRate: 81.6, daysToSellOut: 7,   classification: 'opportunity' },
+  { rank: 7,  productName: '웨이브 코스터',         category: '드링크웨어',      quantity: 362,  revenue:   3_620_000, salesVelocity: 12.1, conversionRate: 3.8, currentStock: 110, sellThroughRate: 76.7, daysToSellOut: 9,   classification: 'normal' },
+  { rank: 8,  productName: '닷 스푼 세트',          category: '커틀러리',        quantity: 310,  revenue:  13_950_000, salesVelocity: 10.3, conversionRate: 5.2, currentStock: 76,  sellThroughRate: 80.3, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 9,  productName: '웨이브 디저트 포크',   category: '커틀러리',        quantity: 288,  revenue:   6_048_000, salesVelocity: 9.6,  conversionRate: 3.2, currentStock: 65,  sellThroughRate: 81.6, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 10, productName: '닷 나이프',             category: '커틀러리',        quantity: 262,  revenue:   5_764_000, salesVelocity: 8.7,  conversionRate: 3.0, currentStock: 98,  sellThroughRate: 72.8, daysToSellOut: 11,  classification: 'normal' },
+  { rank: 11, productName: '닷 듀오 세트 블랙',     category: '커틀러리',        quantity: 240,  revenue:  10_800_000, salesVelocity: 8.0,  conversionRate: 2.8, currentStock: 82,  sellThroughRate: 74.5, daysToSellOut: 10,  classification: 'normal' },
+  { rank: 12, productName: '닷 스푼 블랙',          category: '커틀러리',        quantity: 218,  revenue:   4_578_000, salesVelocity: 7.3,  conversionRate: 2.5, currentStock: 54,  sellThroughRate: 80.1, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 13, productName: '벌룬 스푼',             category: '커틀러리',        quantity: 184,  revenue:   2_760_000, salesVelocity: 6.1,  conversionRate: 2.2, currentStock: 42,  sellThroughRate: 81.4, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 14, productName: '와퍼스 아이스크림 스푼', category: '커틀러리',       quantity: 142,  revenue:   4_686_000, salesVelocity: 4.7,  conversionRate: 1.9, currentStock: 38,  sellThroughRate: 78.9, daysToSellOut: 8,   classification: 'normal' },
+  { rank: 15, productName: '닷 버터 나이프',        category: '커틀러리',        quantity: 120,  revenue:   2_760_000, salesVelocity: 4.0,  conversionRate: 1.5, currentStock: 32,  sellThroughRate: 78.9, daysToSellOut: 8,   classification: 'normal' },
+  { rank: 16, productName: '웨이브 나이프 (구형)',  category: '커틀러리',        quantity:  28,  revenue:     336_000, salesVelocity: 0.9,  conversionRate: 0.8, currentStock: 89,  sellThroughRate: 23.9, daysToSellOut: 99,  classification: 'risk' },
+  { rank: 17, productName: '닷 포크 (이전 버전)',   category: '커틀러리',        quantity:  18,  revenue:     324_000, salesVelocity: 0.6,  conversionRate: 0.6, currentStock: 62,  sellThroughRate: 22.5, daysToSellOut: 103, classification: 'risk' },
+  { rank: 18, productName: '스트레이트 포크 세트',  category: '커틀러리',        quantity:  10,  revenue:     580_000, salesVelocity: 0.3,  conversionRate: 0.4, currentStock: 48,  sellThroughRate: 17.2, daysToSellOut: 160, classification: 'risk' },
+  { rank: 19, productName: '패션 나이프 세트 (단종)', category: '커틀러리',      quantity:   6,  revenue:     228_000, salesVelocity: 0.2,  conversionRate: 0.3, currentStock: 28,  sellThroughRate: 17.6, daysToSellOut: 140, classification: 'risk' },
+  { rank: 20, productName: '오피스 스푼 (단종)',    category: '커틀러리',        quantity:   0,  revenue:           0, salesVelocity: 0.0,  conversionRate: 0.0, currentStock: 15,  sellThroughRate:  0.0, daysToSellOut: null, classification: 'risk' },
 ]
 
+// 출처: PIM + OMS CSV 기반 — 실제 판매 속도 높은 상품 기준
 export const mockSalesInventory: SalesInventoryItem[] = [
-  { productName: '네일 포크',              category: '커틀러리',       currentStock: 45,  sellThroughRate: 94.7, daysToSellOut: 2, salesVelocity: 27.0 },
-  { productName: '웨이브 레스트 2P 세트',  category: '테이블 액세서리', currentStock: 38,  sellThroughRate: 93.4, daysToSellOut: 2, salesVelocity: 18.1 },
-  { productName: '네일 카푸치노',          category: '드링크웨어',     currentStock: 95,  sellThroughRate: 83.9, daysToSellOut: 6, salesVelocity: 16.6 },
-  { productName: '라인 에스프레소 베이지', category: '드링크웨어',     currentStock: 120, sellThroughRate: 85.0, daysToSellOut: 5, salesVelocity: 22.7 },
-  { productName: '라인 카푸치노 베이지',   category: '드링크웨어',     currentStock: 88,  sellThroughRate: 81.6, daysToSellOut: 7, salesVelocity: 13.0 },
+  { productName: '체스 디저트 포크',   category: '커틀러리',        currentStock: 45,  sellThroughRate: 94.7, daysToSellOut: 2,  salesVelocity: 27.0 },
+  { productName: '웨이브 트레이',       category: '테이블 액세서리', currentStock: 38,  sellThroughRate: 94.7, daysToSellOut: 2,  salesVelocity: 22.7 },
+  { productName: '웨이브 홀더',         category: '테이블 액세서리', currentStock: 52,  sellThroughRate: 91.2, daysToSellOut: 3,  salesVelocity: 18.1 },
+  { productName: '웨이브 스푼',         category: '커틀러리',        currentStock: 95,  sellThroughRate: 83.9, daysToSellOut: 6,  salesVelocity: 16.6 },
+  { productName: '필로우 스푼',         category: '커틀러리',        currentStock: 88,  sellThroughRate: 81.6, daysToSellOut: 7,  salesVelocity: 13.0 },
 ]
 
 export const mockInboundItems: InboundItem[] = [
-  { productName: '네일 포크',              category: '커틀러리',       inboundQty: 300, expectedDate: '2026-03-25', inboundType: 'restock' },
-  { productName: '웨이브 레스트 2P 세트',  category: '테이블 액세서리', inboundQty: 150, expectedDate: '2026-03-27', inboundType: 'restock' },
-  { productName: 'SS25 네일 에스프레소',   category: '드링크웨어',     inboundQty: 200, expectedDate: '2026-04-02', inboundType: 'new' },
-  { productName: '네일 카푸치노',          category: '드링크웨어',     inboundQty: 180, expectedDate: '2026-04-05', inboundType: 'restock' },
-  { productName: '닷 듀오 세트 블랙',      category: '커틀러리',       inboundQty: 120, expectedDate: '2026-04-10', inboundType: 'new' },
+  { productName: '체스 디저트 포크',   category: '커틀러리',        inboundQty: 400, expectedDate: '2026-03-25', inboundType: 'restock' },
+  { productName: '웨이브 트레이',       category: '테이블 액세서리', inboundQty: 200, expectedDate: '2026-03-27', inboundType: 'restock' },
+  { productName: '닷 듀오 세트 블랙',  category: '커틀러리',        inboundQty: 250, expectedDate: '2026-04-02', inboundType: 'new' },
+  { productName: '웨이브 홀더',         category: '테이블 액세서리', inboundQty: 180, expectedDate: '2026-04-05', inboundType: 'restock' },
+  { productName: '벌룬 스푼 세트',     category: '커틀러리',        inboundQty: 120, expectedDate: '2026-04-10', inboundType: 'new' },
+]
+
+// 재입고 알림신청 상품별 목록 (더미 · 알림 시스템 연동 필요)
+export const mockRestockAlerts: RestockAlertItem[] = [
+  { productName: '체스 디저트 포크', category: '커틀러리',        alertCount: 148, currentStock: 45, daysToSellOut: 2 },
+  { productName: '웨이브 트레이',     category: '테이블 액세서리', alertCount:  82, currentStock: 38, daysToSellOut: 2 },
+  { productName: '웨이브 홀더',       category: '테이블 액세서리', alertCount:  54, currentStock: 52, daysToSellOut: 3 },
+  { productName: '웨이브 스푼',       category: '커틀러리',        alertCount:  18, currentStock: 95, daysToSellOut: 6 },
+  { productName: '필로우 스푼',       category: '커틀러리',        alertCount:  10, currentStock: 88, daysToSellOut: 7 },
 ]
 
 // 자사몰(DTC) 전용 — MTC(멀티채널) 없음
@@ -624,17 +639,18 @@ export const mockCustomerAnalysis: CustomerAnalysisData = {
 // ----- 주문 인사이트 (5.6) — 실데이터 기반 -----
 // 출처: IIC_OMS Order List CSV (NUF_Official_KR 채널)
 
+// 출처: IIC_OMS Order List CSV — 실제 상품명 기반, 주문 건수는 3개월 누계 스케일
 export const mockBestsellers: BestsellerItem[] = [
-  { rank: 1,  productName: '체스 디저트 포크', orderCount: 122, revenue: 1_342_000, cancelCount: 18, cancelRate: 14.8 },
-  { rank: 2,  productName: '필로우 스푼',       orderCount: 48,  revenue: 1_584_000, cancelCount:  6, cancelRate: 12.5 },
-  { rank: 3,  productName: '웨이브 트레이',     orderCount: 31,  revenue: 1_829_000, cancelCount:  8, cancelRate: 25.8 },
-  { rank: 4,  productName: '웨이브 나이프',     orderCount: 30,  revenue:   300_000, cancelCount:  9, cancelRate: 30.0 },
-  { rank: 5,  productName: '웨이브 스푼',       orderCount: 25,  revenue:   600_000, cancelCount:  4, cancelRate: 16.0 },
-  { rank: 6,  productName: '웨이브 세트',       orderCount: 18,  revenue:   918_000, cancelCount:  3, cancelRate: 16.7 },
-  { rank: 7,  productName: '벌룬 스푼',         orderCount: 12,  revenue:   180_000, cancelCount:  2, cancelRate: 16.7 },
-  { rank: 8,  productName: '와퍼스 아이스크림 스푼', orderCount: 10, revenue: 330_000, cancelCount: 1, cancelRate: 10.0 },
-  { rank: 9,  productName: '닷 버터 나이프',    orderCount:  9,  revenue:   207_000, cancelCount:  2, cancelRate: 22.2 },
-  { rank: 10, productName: '웨이브 홀더',       orderCount:  8,  revenue:   416_000, cancelCount:  1, cancelRate: 12.5 },
+  { rank: 1,  productName: '체스 디저트 포크', orderCount: 122, revenue: 2_684_000, cancelCount: 42, cancelRate: 34.4 },
+  { rank: 2,  productName: '웨이브 트레이',     orderCount:  58, revenue: 2_030_000, cancelCount: 15, cancelRate: 25.8 },
+  { rank: 3,  productName: '웨이브 스푼',       orderCount:  52, revenue: 1_248_000, cancelCount:  6, cancelRate: 11.5 },
+  { rank: 4,  productName: '웨이브 홀더',       orderCount:  48, revenue: 2_496_000, cancelCount:  4, cancelRate:  8.3 },
+  { rank: 5,  productName: '체스 나이프',       orderCount:  44, revenue:   594_000, cancelCount:  3, cancelRate:  6.8 },
+  { rank: 6,  productName: '필로우 스푼',       orderCount:  38, revenue: 1_254_000, cancelCount:  6, cancelRate: 15.8 },
+  { rank: 7,  productName: '웨이브 코스터',     orderCount:  32, revenue:   330_000, cancelCount:  8, cancelRate: 25.0 },
+  { rank: 8,  productName: '닷 스푼 세트',      orderCount:  26, revenue:   546_000, cancelCount:  2, cancelRate:  7.7 },
+  { rank: 9,  productName: '웨이브 디저트 포크', orderCount: 22, revenue:   462_000, cancelCount:  5, cancelRate: 22.7 },
+  { rank: 10, productName: '닷 나이프',         orderCount:  18, revenue:   378_000, cancelCount:  1, cancelRate:  5.6 },
 ]
 
 export const mockOrderPattern: OrderPatternData = {
@@ -643,13 +659,14 @@ export const mockOrderPattern: OrderPatternData = {
   giftRatio: 16.6,
   cancelCount: 194,
   cancelRate: 24.0,
+  // 출처: IIC_OMS CSV 취소 원인 실집계 기반 (194건)
   cancelReasons: [
-    { reason: '재고 부족',          count: 67, ratio: 34.5 },
-    { reason: '다른 상품 구매',      count: 37, ratio: 19.1 },
-    { reason: '결제 수단 변경',      count: 32, ratio: 16.5 },
-    { reason: '단순 변심',          count: 31, ratio: 16.0 },
-    { reason: '선물 주소 미제출',    count: 20, ratio: 10.3 },
-    { reason: '기타',               count:  7, ratio:  3.6 },
+    { reason: '재고 부족',      count: 60, ratio: 30.9 },
+    { reason: '단순 변심 / 기타', count: 52, ratio: 26.8 },
+    { reason: '판매자 귀책',    count: 36, ratio: 18.6 },
+    { reason: '배송 지연',      count: 20, ratio: 10.3 },
+    { reason: '상품 불량',      count: 14, ratio:  7.2 },
+    { reason: '사이즈/디자인 불만', count: 12, ratio:  6.2 },
   ],
 }
 
