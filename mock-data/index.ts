@@ -552,3 +552,296 @@ export function formatDate(dateStr: string): string {
     minute: '2-digit',
   })
 }
+
+// ----- OMS Integrated Order List -----
+
+export type OrderListStatus =
+  | 'Pending'
+  | 'Collected'
+  | 'Partly Confirmed'
+  | 'Partial Shipment Requested'
+  | 'Shipment Requested'
+  | 'Completed'
+  | 'Canceled'
+  | 'Deleted'
+
+export type OrderShippingStatus =
+  | 'Picking Requested'
+  | 'Picking Rejected'
+  | 'Picked'
+  | 'Packed'
+  | 'Shipped'
+  | 'Delivered'
+  | 'Canceled'
+
+export type OrderChannel = 'OWN_KR' | 'OWN_INT'
+
+export interface OrderListItem {
+  orderId: string
+  channel: OrderChannel
+  orderDate: string          // "YYYY.MM.DD HH:mm:ss"
+  ordererName: string | null // null = 비회원
+  ordererEmail: string
+  ordererPhone: string | null // null = 비회원
+  status: OrderListStatus
+  recipientName: string
+  recipientPhone: string
+  shippingStatuses: OrderShippingStatus[]
+  shippingNos: string[]
+  isMember: boolean
+}
+
+export const mockOrderListItems: OrderListItem[] = [
+  {
+    orderId: '20260312_0001_8984',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.12 09:32:11',
+    ordererName: '민*안',
+    ordererEmail: 'mons*****@gmail.com',
+    ordererPhone: '010-****-1234',
+    status: 'Pending',
+    recipientName: '민*안',
+    recipientPhone: '010-****-1234',
+    shippingStatuses: [],
+    shippingNos: [],
+    isMember: true,
+  },
+  {
+    orderId: '20260312_0002_7721',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.12 10:05:43',
+    ordererName: null,
+    ordererEmail: 'user*****@naver.com',
+    ordererPhone: null,
+    status: 'Collected',
+    recipientName: '박*수',
+    recipientPhone: '010-****-5678',
+    shippingStatuses: [],
+    shippingNos: [],
+    isMember: false,
+  },
+  {
+    orderId: '20260311_0003_6610',
+    channel: 'OWN_INT',
+    orderDate: '2026.03.11 14:20:55',
+    ordererName: '이*연',
+    ordererEmail: 'se*****@example.com',
+    ordererPhone: '010-****-9012',
+    status: 'Partly Confirmed',
+    recipientName: '이*연',
+    recipientPhone: '010-****-9012',
+    shippingStatuses: [],
+    shippingNos: [],
+    isMember: true,
+  },
+  {
+    orderId: '20260311_0004_5503',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.11 16:45:22',
+    ordererName: '김*준',
+    ordererEmail: 'kj*****@gmail.com',
+    ordererPhone: '010-****-3456',
+    status: 'Partial Shipment Requested',
+    recipientName: '김*준',
+    recipientPhone: '010-****-3456',
+    shippingStatuses: ['Picking Requested', 'Picked'],
+    shippingNos: ['1234567890', '1234567891'],
+    isMember: true,
+  },
+  {
+    orderId: '20260311_0005_4492',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.11 11:00:09',
+    ordererName: '최*정',
+    ordererEmail: 'cj*****@naver.com',
+    ordererPhone: '010-****-7890',
+    status: 'Shipment Requested',
+    recipientName: '최*정',
+    recipientPhone: '010-****-7890',
+    shippingStatuses: ['Picking Requested'],
+    shippingNos: ['9876543210'],
+    isMember: true,
+  },
+  {
+    orderId: '20260311_0006_3381',
+    channel: 'OWN_INT',
+    orderDate: '2026.03.11 09:15:33',
+    ordererName: '정*우',
+    ordererEmail: 'jw*****@example.com',
+    ordererPhone: '010-****-2345',
+    status: 'Shipment Requested',
+    recipientName: '정*우',
+    recipientPhone: '010-****-2345',
+    shippingStatuses: ['Picked'],
+    shippingNos: ['1122334455'],
+    isMember: true,
+  },
+  {
+    orderId: '20260310_0007_2270',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.10 13:30:44',
+    ordererName: null,
+    ordererEmail: 'anon*****@gmail.com',
+    ordererPhone: null,
+    status: 'Shipment Requested',
+    recipientName: '윤*현',
+    recipientPhone: '010-****-6789',
+    shippingStatuses: ['Packed'],
+    shippingNos: ['5566778899'],
+    isMember: false,
+  },
+  {
+    orderId: '20260310_0008_1159',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.10 15:00:00',
+    ordererName: '오*민',
+    ordererEmail: 'om*****@naver.com',
+    ordererPhone: '010-****-4567',
+    status: 'Shipment Requested',
+    recipientName: '오*민',
+    recipientPhone: '010-****-4567',
+    shippingStatuses: ['Shipped'],
+    shippingNos: ['6677889900'],
+    isMember: true,
+  },
+  {
+    orderId: '20260309_0009_9048',
+    channel: 'OWN_INT',
+    orderDate: '2026.03.09 10:00:15',
+    ordererName: '한*지',
+    ordererEmail: 'hj*****@example.com',
+    ordererPhone: '010-****-8901',
+    status: 'Shipment Requested',
+    recipientName: '한*지',
+    recipientPhone: '010-****-8901',
+    shippingStatuses: ['Picking Requested', 'Packed'],
+    shippingNos: ['7788990011 외 1', '7788990012'],
+    isMember: true,
+  },
+  {
+    orderId: '20260308_0010_8037',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.08 11:30:28',
+    ordererName: '배*호',
+    ordererEmail: 'bh*****@gmail.com',
+    ordererPhone: '010-****-0123',
+    status: 'Completed',
+    recipientName: '배*호',
+    recipientPhone: '010-****-0123',
+    shippingStatuses: ['Delivered'],
+    shippingNos: ['8899001122'],
+    isMember: true,
+  },
+  {
+    orderId: '20260307_0011_7926',
+    channel: 'OWN_INT',
+    orderDate: '2026.03.07 14:20:50',
+    ordererName: '임*원',
+    ordererEmail: 'lc*****@example.com',
+    ordererPhone: '010-****-5678',
+    status: 'Completed',
+    recipientName: '임*원',
+    recipientPhone: '010-****-5678',
+    shippingStatuses: ['Delivered'],
+    shippingNos: ['9900112233'],
+    isMember: true,
+  },
+  {
+    orderId: '20260306_0012_6815',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.06 09:00:00',
+    ordererName: null,
+    ordererEmail: 'guest*****@naver.com',
+    ordererPhone: null,
+    status: 'Completed',
+    recipientName: '권*진',
+    recipientPhone: '010-****-3456',
+    shippingStatuses: ['Delivered'],
+    shippingNos: ['1011121314'],
+    isMember: false,
+  },
+  {
+    orderId: '20260305_0013_5704',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.05 16:45:37',
+    ordererName: '문*호',
+    ordererEmail: 'mj*****@gmail.com',
+    ordererPhone: '010-****-7890',
+    status: 'Canceled',
+    recipientName: '문*호',
+    recipientPhone: '010-****-7890',
+    shippingStatuses: [],
+    shippingNos: [],
+    isMember: true,
+  },
+  {
+    orderId: '20260305_0014_4593',
+    channel: 'OWN_INT',
+    orderDate: '2026.03.05 11:10:05',
+    ordererName: '강*지',
+    ordererEmail: 'km*****@example.com',
+    ordererPhone: '010-****-2345',
+    status: 'Canceled',
+    recipientName: '강*지',
+    recipientPhone: '010-****-2345',
+    shippingStatuses: ['Canceled'],
+    shippingNos: ['2122232425'],
+    isMember: true,
+  },
+  {
+    orderId: '20260304_0015_3482',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.04 08:30:19',
+    ordererName: '서*현',
+    ordererEmail: 'sh*****@naver.com',
+    ordererPhone: '010-****-6789',
+    status: 'Deleted',
+    recipientName: '서*현',
+    recipientPhone: '010-****-6789',
+    shippingStatuses: [],
+    shippingNos: [],
+    isMember: true,
+  },
+  {
+    orderId: '20260312_0016_2371',
+    channel: 'OWN_INT',
+    orderDate: '2026.03.12 08:00:00',
+    ordererName: '윤*연',
+    ordererEmail: 'ys*****@example.com',
+    ordererPhone: '010-****-0123',
+    status: 'Pending',
+    recipientName: '윤*연',
+    recipientPhone: '010-****-0123',
+    shippingStatuses: [],
+    shippingNos: [],
+    isMember: true,
+  },
+  {
+    orderId: '20260311_0017_1260',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.11 17:30:44',
+    ordererName: '이*민',
+    ordererEmail: 'lj*****@gmail.com',
+    ordererPhone: '010-****-4567',
+    status: 'Shipment Requested',
+    recipientName: '이*민',
+    recipientPhone: '010-****-4567',
+    shippingStatuses: ['Picking Rejected'],
+    shippingNos: ['3132333435'],
+    isMember: true,
+  },
+  {
+    orderId: '20260310_0018_0149',
+    channel: 'OWN_KR',
+    orderDate: '2026.03.10 09:55:31',
+    ordererName: '박*수',
+    ordererEmail: 'ps*****@naver.com',
+    ordererPhone: '010-****-8901',
+    status: 'Completed',
+    recipientName: '박*수',
+    recipientPhone: '010-****-8901',
+    shippingStatuses: ['Delivered'],
+    shippingNos: ['4142434445'],
+    isMember: true,
+  },
+]

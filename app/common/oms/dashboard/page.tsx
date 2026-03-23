@@ -2,10 +2,11 @@
 
 import { useState } from "react"
 import NextLink from "next/link"
-import { Box, Breadcrumbs, Link, Tab, Tabs, Typography } from "@mui/material"
+import { Box, Breadcrumbs, Link, Typography } from "@mui/material"
 import NavigateNextIcon from "@mui/icons-material/NavigateNext"
 import {
   DashboardHeader,
+  DashboardTabs,
   StatusSummary,
   OrderListTable,
   type OrderTab,
@@ -25,6 +26,7 @@ export default function OrderDashboardPage() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null)
   const [updatedAt, setUpdatedAt] = useState<string>(() => new Date().toISOString())
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isError, setIsError] = useState(false)
   const [devMode, setDevMode] = useState(false)
   const [activeBlock, setActiveBlock] = useState<string | null>(null)
 
@@ -60,57 +62,37 @@ export default function OrderDashboardPage() {
 
   function handleRefresh() {
     setIsRefreshing(true)
+    setIsError(false)
     setTimeout(() => {
       setUpdatedAt(new Date().toISOString())
       setIsRefreshing(false)
     }, 800)
   }
 
+  function handleRetry() {
+    handleRefresh()
+  }
+
+  const statusSummarySection =
+    activeTab === "ORDER"
+      ? "5.3 Status Summary Area - ORDER 탭"
+      : "5.4 Status Summary Area - CLAIM 탭"
+
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "grey.50" }}>
       {/* Breadcrumb */}
-      <Box
-        sx={{
-          bgcolor: "background.paper",
-          borderBottom: "1px solid",
-          borderColor: "divider",
-          px: 3,
-          py: 1.5,
-        }}
-      >
-        <Breadcrumbs
-          separator={<NavigateNextIcon sx={{ fontSize: 14 }} />}
-          sx={{ fontSize: 13 }}
-        >
-          <Link component={NextLink} href="/" color="text.secondary" underline="hover" fontSize={13}>
-            Home
-          </Link>
-          <Link
-            component={NextLink}
-            href="/common"
-            color="text.secondary"
-            underline="hover"
-            fontSize={13}
-          >
-            Common
-          </Link>
-          <Link
-            component={NextLink}
-            href="/common/oms"
-            color="text.secondary"
-            underline="hover"
-            fontSize={13}
-          >
-            OMS
-          </Link>
-          <Typography color="text.primary" fontSize={13} fontWeight={500}>
-            Order Dashboard
-          </Typography>
+      <Box sx={{ bgcolor: "background.paper", borderBottom: "1px solid", borderColor: "divider", px: 3, py: 1.5 }}>
+        <Breadcrumbs separator={<NavigateNextIcon sx={{ fontSize: 14 }} />} sx={{ fontSize: 13 }}>
+          <Link component={NextLink} href="/" color="text.secondary" underline="hover" fontSize={13}>Home</Link>
+          <Link component={NextLink} href="/common" color="text.secondary" underline="hover" fontSize={13}>Common</Link>
+          <Link component={NextLink} href="/common/oms" color="text.secondary" underline="hover" fontSize={13}>OMS</Link>
+          <Typography color="text.primary" fontSize={13} fontWeight={500}>Order Dashboard</Typography>
         </Breadcrumbs>
       </Box>
 
       <Box sx={{ maxWidth: 1400, mx: "auto", px: 3, py: 3 }}>
-        {/* Header */}
+
+        {/* 5.1 Page Header Area */}
         <DevModeWrapper
           name="DashboardHeader"
           filePath="features/order-dashboard/components/DashboardHeader.tsx"
@@ -126,35 +108,39 @@ export default function OrderDashboardPage() {
           />
         </DevModeWrapper>
 
-        {/* Tabs */}
-        <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 2.5 }}>
-          <Tabs
-            value={activeTab}
-            onChange={(_, v) => handleTabChange(v)}
-            sx={{ minHeight: 40, "& .MuiTab-root": { minHeight: 40, py: 0, fontWeight: 600 } }}
-          >
-            <Tab label="ORDER" value="ORDER" />
-            <Tab label="CLAIM" value="CLAIM" />
-          </Tabs>
-        </Box>
+        {/* 5.2 Tab Area */}
+        <DevModeWrapper
+          name="DashboardTabs"
+          filePath="features/order-dashboard/components/DashboardTabs.tsx"
+          enabled={devMode}
+          color="#b45309"
+          specFile="common/oms/dashboard#5.2 Tab Area"
+          onSpecClick={setActiveBlock}
+        >
+          <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 2.5 }}>
+            <DashboardTabs activeTab={activeTab} onChange={handleTabChange} />
+          </Box>
+        </DevModeWrapper>
 
-        {/* Status Summary */}
+        {/* 5.3 / 5.4 Status Summary Area (탭에 따라 달라짐) */}
         <DevModeWrapper
           name="StatusSummary"
           filePath="features/order-dashboard/components/StatusSummary.tsx"
           enabled={devMode}
           color="#0369a1"
-          specFile="common/oms/dashboard#5.3 Status Summary Area"
+          specFile={`common/oms/dashboard#${statusSummarySection}`}
           onSpecClick={setActiveBlock}
         >
           <StatusSummary
             sections={statusSections}
             selectedStatus={selectedStatus}
             onStatusClick={handleStatusClick}
+            isLoading={isRefreshing}
+            isError={isError}
           />
         </DevModeWrapper>
 
-        {/* Order List Table */}
+        {/* 5.5 Order List Table Area */}
         <DevModeWrapper
           name="OrderListTable"
           filePath="features/order-dashboard/components/OrderListTable.tsx"
@@ -169,8 +155,12 @@ export default function OrderDashboardPage() {
             selectedStatusLabel={selectedStatusLabel}
             selectedStatus={selectedStatus}
             onClearFilter={() => setSelectedStatus(null)}
+            isLoading={isRefreshing}
+            isError={isError}
+            onRetry={handleRetry}
           />
         </DevModeWrapper>
+
       </Box>
 
       <DevModeToggle enabled={devMode} onToggle={() => setDevMode((v) => !v)} />

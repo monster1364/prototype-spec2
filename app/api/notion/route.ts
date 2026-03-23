@@ -18,11 +18,21 @@ export async function GET(request: NextRequest) {
   try {
     const notion = new Client({ auth: notionApiKey })
 
-    // 블록 및 하위 블록 가져오기
+    // 블록 및 하위 블록 가져오기 (페이지네이션으로 전체)
     const block = await notion.blocks.retrieve({ block_id: blockId })
-    const children = await notion.blocks.children.list({ block_id: blockId, page_size: 100 })
+    const allChildren = []
+    let cursor: string | undefined = undefined
+    do {
+      const res = await notion.blocks.children.list({
+        block_id: blockId,
+        page_size: 100,
+        ...(cursor ? { start_cursor: cursor } : {}),
+      })
+      allChildren.push(...res.results)
+      cursor = res.has_more ? (res.next_cursor ?? undefined) : undefined
+    } while (cursor)
 
-    return NextResponse.json({ block, children: children.results })
+    return NextResponse.json({ block, children: allChildren })
   } catch (error) {
     console.error('Notion API 오류:', error)
     return NextResponse.json({ error: 'Notion 블록을 가져오는 데 실패했습니다.' }, { status: 500 })
