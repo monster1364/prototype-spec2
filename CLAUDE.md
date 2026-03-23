@@ -2,9 +2,9 @@
 
 ## 절대 규칙 (위반 금지)
 
-- 외부 API 호출 금지 (Notion API 제외)
+- 외부 API 호출 금지
 - 모든 데이터는 `mock-data/index.ts` 에서만 사용
-- `/app/api` 폴더 생성 금지 (Notion fetch용 `/app/api/notion` 제외)
+- `/app/api` 폴더 생성 금지 (spec 파일 읽기용 `/app/api/spec` 제외)
 - DB 연결 금지
 - 인증 로직 구현 금지 (UI 표현만)
 - 실제품 코드 참조 금지
@@ -42,6 +42,7 @@ shared/
   components/                            ← 공통 재사용 컴포넌트
   utils/                                 ← 공통 유틸리티
 mock-data/index.ts                        ← 목업 데이터 (타입은 features에서 import)
+specs/{서비스}/{플랫폼}/{도메인}.md        ← 정책서 MD 파일 (app 경로와 동일한 구조)
 ```
 
 ### 컴포넌트 작성 규칙
@@ -62,23 +63,28 @@ mock-data/index.ts                        ← 목업 데이터 (타입은 featur
 ```tsx
 "use client";
 import { useState } from "react";
-import NotionDrawer from "@/components/NotionDrawer";
+import MdDrawer from "@/components/MdDrawer";
 import PolicyButton from "@/components/PolicyButton";
 
 export default function Page() {
-  const [activeBlock, setActiveBlock] = useState<string | null>(null);
+  const [activeSpec, setActiveSpec] = useState<string | null>(null);
 
   return (
     <div>
       <h2 className="flex items-center">
         검색 필터
-        <PolicyButton notionBlock="notion.so/page-id#block-abc" onClick={setActiveBlock} />
+        <PolicyButton specFile="common/oms/dashboard#5.1 Page Header Area" onClick={setActiveSpec} />
       </h2>
-      <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
+      <MdDrawer specFile={activeSpec} onClose={() => setActiveSpec(null)} />
     </div>
   );
 }
 ```
+
+- `specFile` 값은 `specs/` 폴더 기준 상대 경로 (확장자 제외)
+- 예: `specs/common/oms/dashboard.md` 전체 → `specFile="common/oms/dashboard"`
+- 특정 섹션만 표시 → `specFile="common/oms/dashboard#5.1 Page Header Area"`
+- `#` 뒤의 텍스트가 heading에 포함되면 해당 섹션부터 다음 같은 레벨 heading 전까지만 표시
 
 ---
 
@@ -86,10 +92,10 @@ export default function Page() {
 
 ### 프로토타입 신규 생성
 
-> Notion에 정책서 작성 완료 후 아래 프롬프트를 Claude Code에 붙여넣으세요.
+> `specs/{서비스}/{플랫폼}/{도메인}.md` 정책서 작성 완료 후 아래 프롬프트를 Claude Code에 붙여넣으세요.
 
 ```
-https://notion.so/{page-id} 를 읽고
+specs/{서비스}/{플랫폼}/{도메인}.md 를 읽고
 app/{서비스}/{플랫폼}/{도메인}/page.tsx 를 만들어줘.
 
 - CLAUDE.md 절대 규칙 준수
@@ -101,7 +107,7 @@ app/{서비스}/{플랫폼}/{도메인}/page.tsx 를 만들어줘.
 예시:
 
 ```
-https://notion.so/abc123 를 읽고
+specs/common/oms/dashboard.md 를 읽고
 app/common/oms/dashboard/page.tsx 를 만들어줘.
 
 - CLAUDE.md 절대 규칙 준수
@@ -117,37 +123,36 @@ app/common/oms/dashboard/page.tsx 를 만들어줘.
 ```
 app/{서비스}/{플랫폼}/{도메인} 의 {화면명}에서
 {수정 내용} 해줘.
-Notion 페이지 https://notion.so/{page-id} 기준으로 맞춰줘.
+specs/{서비스}/{플랫폼}/{도메인}.md 기준으로 맞춰줘.
 ```
 
 ### ? 버튼 연결
 
 ```
 {컴포넌트명}에 ? 버튼을 추가하고
-Notion 블록 링크 notion.so/{page-id}#{block-id} 와 연결해줘.
-? 버튼 클릭 시 우측 드로어로 해당 Notion 블록 내용이 열려야 해.
+specs/{서비스}/{플랫폼}/{도메인}.md 와 연결해줘.
+? 버튼 클릭 시 우측 드로어로 정책서 내용이 열려야 해.
 ```
 
 ### 정합성 확인
 
 ```
-현재 프로토타입이 Notion 페이지
-https://notion.so/{page-id} 내용과
+현재 프로토타입이 specs/{서비스}/{플랫폼}/{도메인}.md 내용과
 다른 부분이 있으면 알려줘.
 ```
 
 ### 역방향 동기화 (실제품 변경 후)
 
 ```
-notion.so/{page-id} 내용 기준으로
+specs/{서비스}/{플랫폼}/{도메인}.md 내용 기준으로
 app/{서비스}/{플랫폼}/{도메인}/ 프로토타입 업데이트해줘.
 ```
 
 ---
 
-## Notion 정책서 템플릿 (PM 작성용)
+## 정책서 MD 템플릿 (PM 작성용)
 
-PM이 아래 구조로 Notion 페이지를 작성하면 Claude Code가 프로토타입을 생성합니다.
+PM이 아래 구조로 `specs/{서비스}/{플랫폼}/{도메인}.md` 파일을 작성하면 Claude Code가 프로토타입을 생성합니다.
 
 ```
 # {화면 이름}

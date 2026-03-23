@@ -9,14 +9,14 @@ interface Props {
   enabled: boolean
   children: React.ReactNode
   color?: string
-  notionBlock?: string
-  onNotionClick?: (url: string) => void
+  specFile?: string
+  onSpecClick?: (file: string) => void
 }
 
-export function DevModeWrapper({ name, filePath, enabled, children, color = "#7c3aed", notionBlock, onNotionClick }: Props) {
+export function DevModeWrapper({ name, filePath, enabled, children, color = "#7c3aed", specFile, onSpecClick }: Props) {
   if (!enabled) return <>{children}</>
 
-  const clickable = !!notionBlock && !!onNotionClick
+  const clickable = !!specFile && !!onSpecClick
 
   return (
     <Box
@@ -37,7 +37,7 @@ export function DevModeWrapper({ name, filePath, enabled, children, color = "#7c
           icon={<CodeIcon sx={{ fontSize: "12px !important" }} />}
           label={name}
           size="small"
-          onClick={clickable ? () => onNotionClick!(notionBlock!) : undefined}
+          onClick={clickable ? () => onSpecClick!(specFile!) : undefined}
           sx={{
             position: "absolute",
             top: -12,

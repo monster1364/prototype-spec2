@@ -18,7 +18,7 @@ import {
 } from "@/mock-data"
 import { DevModeWrapper } from "@/shared/components/DevModeWrapper"
 import { DevModeToggle } from "@/shared/components/DevModeToggle"
-import NotionDrawer from "@/components/NotionDrawer"
+import MdDrawer from "@/components/MdDrawer"
 
 export default function OrderDashboardPage() {
   const [activeTab, setActiveTab] = useState<OrderTab>("ORDER")
@@ -116,8 +116,8 @@ export default function OrderDashboardPage() {
           filePath="features/order-dashboard/components/DashboardHeader.tsx"
           enabled={devMode}
           color="#7c3aed"
-          notionBlock="https://www.notion.so/OMS-Order-Dashboard-1-321dd8037729806bb705f6f34c98431c"
-          onNotionClick={setActiveBlock}
+          specFile="common/oms/dashboard#5.1 Page Header Area"
+          onSpecClick={setActiveBlock}
         >
           <DashboardHeader
             updatedAt={updatedAt}
@@ -144,8 +144,8 @@ export default function OrderDashboardPage() {
           filePath="features/order-dashboard/components/StatusSummary.tsx"
           enabled={devMode}
           color="#0369a1"
-          notionBlock="https://www.notion.so/OMS-Order-Dashboard-1-321dd8037729806bb705f6f34c98431c"
-          onNotionClick={setActiveBlock}
+          specFile="common/oms/dashboard#5.3 Status Summary Area"
+          onSpecClick={setActiveBlock}
         >
           <StatusSummary
             sections={statusSections}
@@ -160,8 +160,8 @@ export default function OrderDashboardPage() {
           filePath="features/order-dashboard/components/OrderListTable.tsx"
           enabled={devMode}
           color="#047857"
-          notionBlock="https://www.notion.so/OMS-Order-Dashboard-1-321dd8037729806bb705f6f34c98431c"
-          onNotionClick={setActiveBlock}
+          specFile="common/oms/dashboard#5.5 Order List Table Area"
+          onSpecClick={setActiveBlock}
         >
           <OrderListTable
             items={filteredItems}
@@ -174,7 +174,7 @@ export default function OrderDashboardPage() {
       </Box>
 
       <DevModeToggle enabled={devMode} onToggle={() => setDevMode((v) => !v)} />
-      <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
+      <MdDrawer specFile={activeBlock} onClose={() => setActiveBlock(null)} />
     </Box>
   )
 }

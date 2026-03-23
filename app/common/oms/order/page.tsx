@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import NotionDrawer from '@/components/NotionDrawer'
+import MdDrawer from '@/components/MdDrawer'
 import PolicyButton from '@/components/PolicyButton'
 import {
   mockOrders,
@@ -13,11 +13,10 @@ import {
   type OrderStatus,
 } from '@/mock-data'
 
-// Notion 블록 링크는 실제 정책서 작성 후 PM이 업데이트합니다
-const NOTION_BLOCKS = {
-  searchFilter: 'notion.so/your-page-id#search-filter-block',
-  orderTable: 'notion.so/your-page-id#order-table-block',
-  statusBadge: 'notion.so/your-page-id#status-badge-block',
+const SPEC_FILES = {
+  searchFilter: 'common/oms/order',
+  orderTable: 'common/oms/order',
+  statusBadge: 'common/oms/order',
 }
 
 export default function OrderListPage() {
@@ -59,7 +58,7 @@ export default function OrderListPage() {
         <div className="bg-white rounded-xl border border-gray-200 p-4 mb-4">
           <div className="flex items-center gap-2 mb-3">
             <h2 className="text-sm font-semibold text-gray-700">검색 필터</h2>
-            <PolicyButton notionBlock={NOTION_BLOCKS.searchFilter} onClick={setActiveBlock} />
+            <PolicyButton specFile={SPEC_FILES.searchFilter} onClick={setActiveBlock} />
           </div>
           <div className="flex items-center gap-3">
             <input
@@ -95,7 +94,7 @@ export default function OrderListPage() {
           <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-semibold text-gray-700">주문 목록</h2>
-              <PolicyButton notionBlock={NOTION_BLOCKS.orderTable} onClick={setActiveBlock} />
+              <PolicyButton specFile={SPEC_FILES.orderTable} onClick={setActiveBlock} />
             </div>
             <span className="text-xs text-gray-500">{filtered.length}건</span>
           </div>
@@ -108,7 +107,7 @@ export default function OrderListPage() {
                 <th className="px-5 py-3 text-xs font-semibold text-gray-600">
                   <div className="flex items-center gap-1">
                     상태
-                    <PolicyButton notionBlock={NOTION_BLOCKS.statusBadge} onClick={setActiveBlock} />
+                    <PolicyButton specFile={SPEC_FILES.statusBadge} onClick={setActiveBlock} />
                   </div>
                 </th>
                 <th className="px-5 py-3 text-xs font-semibold text-gray-600">서비스</th>
@@ -151,7 +150,7 @@ export default function OrderListPage() {
         </div>
       </main>
 
-      <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
+      <MdDrawer specFile={activeBlock} onClose={() => setActiveBlock(null)} />
     </div>
   )
 }

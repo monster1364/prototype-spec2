@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import NotionDrawer from '@/components/NotionDrawer'
+import MdDrawer from '@/components/MdDrawer'
 import PolicyButton from '@/components/PolicyButton'
 import {
   mockProducts,
@@ -12,8 +12,8 @@ import {
   type ProductStatus,
 } from '@/mock-data'
 
-const NOTION_BLOCKS = {
-  productTable: 'notion.so/your-page-id#product-table-block',
+const SPEC_FILES = {
+  productTable: 'common/pim/product',
 }
 
 export default function ProductListPage() {
@@ -78,7 +78,7 @@ export default function ProductListPage() {
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div className="flex items-center gap-2 px-5 py-3 border-b border-gray-100">
             <h2 className="text-sm font-semibold text-gray-700">상품 목록</h2>
-            <PolicyButton notionBlock={NOTION_BLOCKS.productTable} onClick={setActiveBlock} />
+            <PolicyButton specFile={SPEC_FILES.productTable} onClick={setActiveBlock} />
             <span className="ml-auto text-xs text-gray-500">{filtered.length}건</span>
           </div>
 
@@ -115,7 +115,7 @@ export default function ProductListPage() {
         </div>
       </main>
 
-      <NotionDrawer blockUrl={activeBlock} onClose={() => setActiveBlock(null)} />
+      <MdDrawer specFile={activeBlock} onClose={() => setActiveBlock(null)} />
     </div>
   )
 }
