@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const pages = [
   { name: 'Order Dashboard', path: '/common/oms/dashboard', description: '주문/클레임 현황 대시보드' },
-  { name: '주문 목록', path: '/common/oms/order', description: '전체 주문 조회 및 관리' },
+  { name: 'Order List', path: '/common/oms/integrated-order/order-list', description: 'Integrated Order > 주문 리스트 조회 및 관리' },
 ]
 
 const commonComponents = [
