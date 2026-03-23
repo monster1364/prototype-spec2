@@ -3,6 +3,7 @@ import Link from 'next/link'
 const domains = [
   { name: 'OMS', path: '/common/oms', description: '전체 서비스 주문 통합 관리' },
   { name: 'PIM', path: '/common/pim', description: '전체 서비스 상품 통합 관리' },
+  { name: 'Sales', path: '/common/sales', description: '오프라인 통합 판매 데이터 분석' },
 ]
 
 export default function CommonPage() {

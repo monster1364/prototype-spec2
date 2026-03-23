@@ -168,11 +168,11 @@ export const mockProducts: Product[] = [
   },
   {
     id: '3',
-    sku: 'NF-SS24-001',
-    name: '누플랫 캐리어 M',
-    category: '캐리어',
-    price: 480000,
-    stock: 12,
+    sku: 'NF-NAIL-001',
+    name: 'Nail 커틀러리 5P 세트',
+    category: '커틀러리',
+    price: 168000,
+    stock: 45,
     status: 'active',
     service: 'nuflaat',
     createdAt: '2024-02-01T00:00:00Z',
@@ -393,6 +393,149 @@ export const mockDashboardItems: DashboardOrderItem[] = [
   { id: 'c010', channel: 'Shopify', orderNo: 'RSH-2026-002001', orderDate: '2026-03-11T15:00:00Z', ordererEmail: 'yoon.hyuna@example.com',    status: 'Picking Requested',   fulfillmentNo: 'FUL-2026-070021', fulfillmentStatus: 'Picking Requested', recipientName: '윤현아',     tab: 'CLAIM', detailStatus: 'reshipment-picking-requested' },
   { id: 'c011', channel: 'Amazon',  orderNo: 'RSH-2026-002002', orderDate: '2026-03-04T10:00:00Z', ordererEmail: 'mike.yang@example.com',     status: 'Delivered',           fulfillmentNo: 'FUL-2026-070005', fulfillmentStatus: 'Delivered',         recipientName: 'Mike Yang',  tab: 'CLAIM', detailStatus: 'reshipment-delivered' },
 ]
+
+// ----- Sales Dashboard -----
+// 타입은 features/sales-dashboard/models/types.ts 에서 가져옵니다.
+
+import type {
+  SalesDashboardKPI,
+  SalesChannelData,
+  SalesTrendItem,
+  CategorySales,
+  CollectionSales,
+  ProductPerformanceItem,
+  CustomerAnalysisData,
+  SalesInventoryItem,
+  InboundItem,
+  DtcMtcSummary,
+} from '@/features/sales-dashboard/models/types'
+
+export type {
+  SalesDashboardKPI,
+  SalesChannelData,
+  SalesTrendItem,
+  CategorySales,
+  CollectionSales,
+  ProductPerformanceItem,
+  CustomerAnalysisData,
+  SalesInventoryItem,
+  InboundItem,
+  DtcMtcSummary,
+}
+
+export const mockSalesKPI: SalesDashboardKPI = {
+  totalRevenue: 1_245_800_000,
+  totalRevenueDelta: 12.3,
+  totalOrders: 3842,
+  totalOrdersDelta: 8.7,
+  aov: 324_200,
+  aovDelta: 3.2,
+  conversionRate: 4.7,
+  conversionRateDelta: -0.3,
+  salesLoss: 48_200_000,
+  salesLossDelta: -15.4,
+  restockAlertCount: 312,
+  restockAlertDelta: 28.6,
+}
+
+export const mockSalesChannelData: SalesChannelData = {
+  online: 748_000_000,
+  offline: 422_000_000,
+  gift: 75_800_000,
+  giftOrderCount: 234,
+  giftRatio: 6.1,
+}
+
+export const mockSalesTrend: SalesTrendItem[] = [
+  { label: '2025-04', revenue: 980_000_000,   revenuePrevYear: 850_000_000 },
+  { label: '2025-05', revenue: 1_020_000_000, revenuePrevYear: 890_000_000 },
+  { label: '2025-06', revenue: 1_140_000_000, revenuePrevYear: 960_000_000 },
+  { label: '2025-07', revenue: 1_080_000_000, revenuePrevYear: 920_000_000 },
+  { label: '2025-08', revenue: 1_060_000_000, revenuePrevYear: 905_000_000 },
+  { label: '2025-09', revenue: 1_190_000_000, revenuePrevYear: 1_010_000_000 },
+  { label: '2025-10', revenue: 1_320_000_000, revenuePrevYear: 1_150_000_000 },
+  { label: '2025-11', revenue: 1_480_000_000, revenuePrevYear: 1_280_000_000 },
+  { label: '2025-12', revenue: 1_650_000_000, revenuePrevYear: 1_420_000_000 },
+  { label: '2026-01', revenue: 1_105_000_000, revenuePrevYear: 980_000_000 },
+  { label: '2026-02', revenue: 1_180_000_000, revenuePrevYear: 1_050_000_000 },
+  { label: '2026-03', revenue: 1_245_800_000, revenuePrevYear: 1_108_000_000 },
+]
+
+export const mockCategorySales: CategorySales[] = [
+  { category: '커틀러리',      revenue: 685_000_000, quantity: 6840 },
+  { category: '세라믹',        revenue: 249_000_000, quantity: 1820 },
+  { category: '테이블 액세서리', revenue: 187_000_000, quantity: 2140 },
+  { category: '글라스웨어',    revenue: 124_800_000, quantity: 1540 },
+]
+
+export const mockCollectionSales: CollectionSales[] = [
+  { rank: 1, collection: 'Nail',    revenue: 428_000_000, quantity: 3240, deltaRate:  22.4 },
+  { rank: 2, collection: 'Line',    revenue: 312_000_000, quantity: 2880, deltaRate:   8.1 },
+  { rank: 3, collection: 'Wave',    revenue: 218_000_000, quantity: 1620, deltaRate:  15.7 },
+  { rank: 4, collection: 'Straight', revenue: 142_000_000, quantity: 980, deltaRate:  -3.2 },
+  { rank: 5, collection: 'Pattern', revenue:  82_000_000, quantity: 740,  deltaRate:  31.4 },
+  { rank: 6, collection: 'Mini',    revenue:  38_400_000, quantity: 920,  deltaRate:  -8.6 },
+  { rank: 7, collection: 'Office',  revenue:  14_600_000, quantity: 280,  deltaRate: -18.2 },
+  { rank: 8, collection: 'Fashion', revenue:  10_800_000, quantity: 196,  deltaRate: -24.5 },
+]
+
+export const mockProductPerformance: ProductPerformanceItem[] = [
+  { rank: 1,  productName: 'Nail 커틀러리 5P 세트',      category: '커틀러리',      quantity: 810,  revenue: 136_080_000, salesVelocity: 27.0, conversionRate: 7.8, currentStock: 45,  sellThroughRate: 94.7, daysToSellOut: 2,   classification: 'opportunity' },
+  { rank: 2,  productName: 'Line 디너 수저 세트 2P',     category: '커틀러리',      quantity: 680,  revenue:  48_960_000, salesVelocity: 22.7, conversionRate: 5.4, currentStock: 120, sellThroughRate: 85.0, daysToSellOut: 5,   classification: 'opportunity' },
+  { rank: 3,  productName: 'Wave 세라믹 볼 세트 2P',     category: '세라믹',        quantity: 542,  revenue:  41_192_000, salesVelocity: 18.1, conversionRate: 6.2, currentStock: 38,  sellThroughRate: 93.4, daysToSellOut: 2,   classification: 'opportunity' },
+  { rank: 4,  productName: 'Nail 디너 포크 2P',         category: '커틀러리',      quantity: 498,  revenue:  28_884_000, salesVelocity: 16.6, conversionRate: 4.9, currentStock: 95,  sellThroughRate: 83.9, daysToSellOut: 6,   classification: 'opportunity' },
+  { rank: 5,  productName: 'Straight 커틀러리 4P 세트',  category: '커틀러리',      quantity: 430,  revenue:  60_200_000, salesVelocity: 14.3, conversionRate: 4.1, currentStock: 140, sellThroughRate: 75.4, daysToSellOut: 10,  classification: 'normal' },
+  { rank: 6,  productName: 'Line 디너 포크 2P',         category: '커틀러리',      quantity: 390,  revenue:  17_940_000, salesVelocity: 13.0, conversionRate: 5.7, currentStock: 88,  sellThroughRate: 81.6, daysToSellOut: 7,   classification: 'opportunity' },
+  { rank: 7,  productName: 'Nail 디너 나이프 2P',        category: '커틀러리',      quantity: 362,  revenue:  23_168_000, salesVelocity: 12.1, conversionRate: 3.8, currentStock: 110, sellThroughRate: 76.7, daysToSellOut: 9,   classification: 'normal' },
+  { rank: 8,  productName: 'Pattern 세라믹 플레이트',    category: '세라믹',        quantity: 310,  revenue:  13_950_000, salesVelocity: 10.3, conversionRate: 5.2, currentStock: 76,  sellThroughRate: 80.3, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 9,  productName: 'Nail 티스푼 4P',            category: '커틀러리',      quantity: 288,  revenue:  13_824_000, salesVelocity: 9.6,  conversionRate: 3.2, currentStock: 65,  sellThroughRate: 81.6, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 10, productName: 'Wave 디너 포크 2P',         category: '커틀러리',      quantity: 262,  revenue:  13_624_000, salesVelocity: 8.7,  conversionRate: 3.0, currentStock: 98,  sellThroughRate: 72.8, daysToSellOut: 11,  classification: 'normal' },
+  { rank: 11, productName: 'Office 수저 세트 3P',       category: '커틀러리',      quantity: 240,  revenue:  20_160_000, salesVelocity: 8.0,  conversionRate: 2.8, currentStock: 82,  sellThroughRate: 74.5, daysToSellOut: 10,  classification: 'normal' },
+  { rank: 12, productName: 'Mini 티스푼 6P',            category: '커틀러리',      quantity: 218,  revenue:  12_208_000, salesVelocity: 7.3,  conversionRate: 2.5, currentStock: 54,  sellThroughRate: 80.1, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 13, productName: 'Pattern 볼 세트 2P',        category: '세라믹',        quantity: 184,  revenue:  12_512_000, salesVelocity: 6.1,  conversionRate: 2.2, currentStock: 42,  sellThroughRate: 81.4, daysToSellOut: 7,   classification: 'normal' },
+  { rank: 14, productName: 'Fashion 트레이',            category: '테이블 액세서리', quantity: 142, revenue:   9_230_000, salesVelocity: 4.7,  conversionRate: 1.9, currentStock: 38,  sellThroughRate: 78.9, daysToSellOut: 8,   classification: 'normal' },
+  { rank: 15, productName: 'Straight 버터 나이프 2P',   category: '커틀러리',      quantity: 120,  revenue:   6_240_000, salesVelocity: 4.0,  conversionRate: 1.5, currentStock: 32,  sellThroughRate: 78.9, daysToSellOut: 8,   classification: 'normal' },
+  { rank: 16, productName: 'Fashion 냅킨 링 4P (단종 예정)', category: '테이블 액세서리', quantity: 28, revenue: 1_344_000, salesVelocity: 0.9,  conversionRate: 0.8, currentStock: 89,  sellThroughRate: 23.9, daysToSellOut: 99,  classification: 'risk' },
+  { rank: 17, productName: 'Office 스푼 2P (구형)',     category: '커틀러리',      quantity: 18,   revenue:    756_000,  salesVelocity: 0.6,  conversionRate: 0.6, currentStock: 62,  sellThroughRate: 22.5, daysToSellOut: 103, classification: 'risk' },
+  { rank: 18, productName: 'Line 글라스 2P',            category: '글라스웨어',    quantity: 10,   revenue:    580_000,  salesVelocity: 0.3,  conversionRate: 0.4, currentStock: 48,  sellThroughRate: 17.2, daysToSellOut: 160, classification: 'risk' },
+  { rank: 19, productName: 'Mini 버터 나이프 2P (단종)', category: '커틀러리',      quantity: 6,    revenue:    228_000,  salesVelocity: 0.2,  conversionRate: 0.3, currentStock: 28,  sellThroughRate: 17.6, daysToSellOut: 140, classification: 'risk' },
+  { rank: 20, productName: 'Straight 케이크 서버 (단종)', category: '커틀러리',     quantity: 0,    revenue:          0, salesVelocity: 0.0,  conversionRate: 0.0, currentStock: 15,  sellThroughRate:  0.0, daysToSellOut: null, classification: 'risk' },
+]
+
+export const mockSalesInventory: SalesInventoryItem[] = [
+  { productName: 'Nail 커틀러리 5P 세트',  category: '커틀러리', currentStock: 45, sellThroughRate: 94.7, daysToSellOut: 2, salesVelocity: 27.0 },
+  { productName: 'Wave 세라믹 볼 세트 2P', category: '세라믹',   currentStock: 38, sellThroughRate: 93.4, daysToSellOut: 2, salesVelocity: 18.1 },
+  { productName: 'Nail 디너 포크 2P',      category: '커틀러리', currentStock: 95, sellThroughRate: 83.9, daysToSellOut: 6, salesVelocity: 16.6 },
+  { productName: 'Line 디너 수저 세트 2P', category: '커틀러리', currentStock: 120, sellThroughRate: 85.0, daysToSellOut: 5, salesVelocity: 22.7 },
+  { productName: 'Line 디너 포크 2P',      category: '커틀러리', currentStock: 88, sellThroughRate: 81.6, daysToSellOut: 7, salesVelocity: 13.0 },
+]
+
+export const mockInboundItems: InboundItem[] = [
+  { productName: 'Nail 커틀러리 5P 세트',  category: '커틀러리', inboundQty: 300, expectedDate: '2026-03-25', inboundType: 'restock' },
+  { productName: 'Wave 세라믹 볼 세트 2P', category: '세라믹',   inboundQty: 150, expectedDate: '2026-03-27', inboundType: 'restock' },
+  { productName: 'SS25 Wave 글라스 2P',    category: '글라스웨어', inboundQty: 200, expectedDate: '2026-04-02', inboundType: 'new' },
+  { productName: 'Nail 디너 포크 2P',      category: '커틀러리', inboundQty: 180, expectedDate: '2026-04-05', inboundType: 'restock' },
+  { productName: 'Pattern 세라믹 머그',    category: '세라믹',   inboundQty: 120, expectedDate: '2026-04-10', inboundType: 'new' },
+]
+
+export const mockDtcMtcSummary: DtcMtcSummary = {
+  dtcRevenue: 520_000_000,
+  dtcRatio: 41.7,
+  mtcRevenue: 423_800_000,
+  mtcRatio: 34.0,
+  dtcOrderCount: 1620,
+  mtcOrderCount: 1180,
+}
+
+export const mockCustomerAnalysis: CustomerAnalysisData = {
+  newCustomers: 1204,
+  repeatCustomers: 747,
+  newRatio: 61.6,
+  repeatRatio: 38.4,
+  totalCustomers: 1951,
+  cartAddCount: 8420,
+  wishlistAddCount: 5130,
+}
 
 // ----- 공통 유틸 -----
 
