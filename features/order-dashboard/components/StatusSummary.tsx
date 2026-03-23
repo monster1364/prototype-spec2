@@ -1,6 +1,7 @@
 "use client"
 
-import { alpha, Box, Divider, Grid, Paper, Stack, Typography } from "@mui/material"
+import { alpha, Box, Divider, Grid, Paper, Skeleton, Stack, Typography } from "@mui/material"
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
 import type { DashboardStatusSection } from "../models/types"
 import { getSubStateCountColor, groupTotal } from "../modules/utils"
 
@@ -8,9 +9,11 @@ interface Props {
   sections: DashboardStatusSection[]
   selectedStatus: string | null
   onStatusClick: (key: string) => void
+  isLoading?: boolean
+  isError?: boolean
 }
 
-export function StatusSummary({ sections, selectedStatus, onStatusClick }: Props) {
+export function StatusSummary({ sections, selectedStatus, onStatusClick, isLoading, isError }: Props) {
   return (
     <Grid container spacing={2} mb={2.5}>
       {sections.map((section) => (
@@ -34,8 +37,18 @@ export function StatusSummary({ sections, selectedStatus, onStatusClick }: Props
               </Typography>
             </Box>
 
+            {/* Error state */}
+            {isError && (
+              <Stack alignItems="center" justifyContent="center" spacing={0.5} sx={{ py: 3, px: 2 }}>
+                <ErrorOutlineIcon sx={{ fontSize: 20, color: "error.main" }} />
+                <Typography variant="caption" color="text.secondary" textAlign="center">
+                  Failed to load status data.
+                </Typography>
+              </Stack>
+            )}
+
             {/* Groups */}
-            {section.groups.map((group, idx) => (
+            {!isError && section.groups.map((group, idx) => (
               <Box key={group.groupLabel}>
                 {idx > 0 && <Divider />}
                 <Box sx={{ px: 2, py: 1.5 }}>
@@ -72,13 +85,17 @@ export function StatusSummary({ sections, selectedStatus, onStatusClick }: Props
                         </Box>
                       )}
                     </Typography>
-                    <Typography
-                      variant="caption"
-                      color="text.disabled"
-                      sx={{ fontVariantNumeric: "tabular-nums", fontSize: 11 }}
-                    >
-                      {groupTotal(group.subStates).toLocaleString()}
-                    </Typography>
+                    {isLoading ? (
+                      <Skeleton width={24} height={16} />
+                    ) : (
+                      <Typography
+                        variant="caption"
+                        color="text.disabled"
+                        sx={{ fontVariantNumeric: "tabular-nums", fontSize: 11 }}
+                      >
+                        {groupTotal(group.subStates).toLocaleString()}
+                      </Typography>
+                    )}
                   </Stack>
 
                   {/* Sub-state rows */}
@@ -89,7 +106,7 @@ export function StatusSummary({ sections, selectedStatus, onStatusClick }: Props
                         <Box
                           key={sub.key}
                           component="button"
-                          onClick={() => onStatusClick(sub.key)}
+                          onClick={() => !isLoading && onStatusClick(sub.key)}
                           sx={{
                             display: "flex",
                             alignItems: "center",
@@ -98,7 +115,7 @@ export function StatusSummary({ sections, selectedStatus, onStatusClick }: Props
                             py: 0.75,
                             borderRadius: 1,
                             border: "none",
-                            cursor: "pointer",
+                            cursor: isLoading ? "default" : "pointer",
                             bgcolor: isSelected
                               ? (theme) => alpha(theme.palette.primary.main, 0.08)
                               : "transparent",
@@ -107,7 +124,7 @@ export function StatusSummary({ sections, selectedStatus, onStatusClick }: Props
                                   `1px solid ${alpha(theme.palette.primary.main, 0.3)}`
                               : "none",
                             "&:hover": {
-                              bgcolor: isSelected
+                              bgcolor: isLoading ? "transparent" : isSelected
                                 ? (theme) => alpha(theme.palette.primary.main, 0.12)
                                 : "grey.100",
                             },
@@ -122,19 +139,23 @@ export function StatusSummary({ sections, selectedStatus, onStatusClick }: Props
                           >
                             {sub.label}
                           </Typography>
-                          <Typography
-                            variant="body2"
-                            fontSize={13}
-                            fontWeight={isSelected ? 700 : 600}
-                            sx={{
-                              fontVariantNumeric: "tabular-nums",
-                              color: isSelected
-                                ? "primary.main"
-                                : getSubStateCountColor(group.groupLabel, sub.label),
-                            }}
-                          >
-                            {sub.count.toLocaleString()}
-                          </Typography>
+                          {isLoading ? (
+                            <Skeleton width={20} height={16} />
+                          ) : (
+                            <Typography
+                              variant="body2"
+                              fontSize={13}
+                              fontWeight={isSelected ? 700 : 600}
+                              sx={{
+                                fontVariantNumeric: "tabular-nums",
+                                color: isSelected
+                                  ? "primary.main"
+                                  : getSubStateCountColor(group.groupLabel, sub.label),
+                              }}
+                            >
+                              {sub.count.toLocaleString()}
+                            </Typography>
+                          )}
                         </Box>
                       )
                     })}

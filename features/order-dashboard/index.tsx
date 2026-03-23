@@ -4,6 +4,7 @@
 // ============================================================
 
 export { DashboardHeader } from "./components/DashboardHeader"
+export { DashboardTabs } from "./components/DashboardTabs"
 export { StatusSummary } from "./components/StatusSummary"
 export { OrderListTable } from "./components/OrderListTable"
 export type {

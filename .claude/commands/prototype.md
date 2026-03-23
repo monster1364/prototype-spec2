@@ -15,3 +15,28 @@ Notion URL: $ARGUMENTS
 - 상태관리는 useState만 사용
 - 화면 이동은 Next.js Link 사용
 - 정책서의 "12. AI에게 원하는 산출물" 항목을 반드시 반영
+
+## Proto Updated At 패턴 (필수)
+
+page.tsx 상단에 아래 두 상수를 반드시 선언해:
+
+```ts
+const NOTION_PAGE = "{Notion 페이지 URL}"
+const PROTO_UPDATED_AT = "{오늘 날짜 YYYY-MM-DD HH:mm}"
+```
+
+브레드크럼 영역에 `ProtoUpdatedAt` 컴포넌트를 추가해:
+
+```tsx
+import ProtoUpdatedAt from "@/shared/components/ProtoUpdatedAt"
+
+{/* Breadcrumb */}
+<Box sx={{ ..., display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+  <Breadcrumbs ...>
+    ...
+  </Breadcrumbs>
+  <ProtoUpdatedAt value={PROTO_UPDATED_AT} />
+</Box>
+```
+
+`PROTO_UPDATED_AT` 값은 프로토타입을 생성하는 시점의 날짜/시간으로 설정해. (currentDate 기준)
