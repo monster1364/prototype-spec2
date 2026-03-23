@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Paper, Stack, Typography } from "@mui/material"
+import { Box, Chip, Paper, Stack, Typography } from "@mui/material"
 import { useState } from "react"
 import type { SalesTrendItem, PeriodUnit } from "../models/types"
 import { CHART_PRIMARY_COLOR, CHART_PREV_YEAR_COLOR } from "../modules/constants"
@@ -33,9 +33,12 @@ export function SalesTrend({ data, periodUnit }: Props) {
   return (
     <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 1.5, height: "100%" }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1.5}>
-        <Typography variant="subtitle2" fontWeight={700} fontSize={13}>
-          매출 추이 <Typography component="span" variant="caption" color="text.secondary">({periodLabel})</Typography>
-        </Typography>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Typography variant="subtitle2" fontWeight={700} fontSize={13}>
+            매출 추이 <Typography component="span" variant="caption" color="text.secondary">({periodLabel})</Typography>
+          </Typography>
+          <Chip label="일부 적용 · 주문 증감 OMS 기반" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
+        </Stack>
         <Stack direction="row" gap={2}>
           <Stack direction="row" alignItems="center" gap={0.5}>
             <Box sx={{ width: 24, height: 2, bgcolor: CHART_PRIMARY_COLOR }} />

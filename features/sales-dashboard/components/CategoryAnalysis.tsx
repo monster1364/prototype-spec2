@@ -1,7 +1,7 @@
 "use client"
 
 import {
-  Box, Grid, LinearProgress, Paper, Stack,
+  Box, Chip, Grid, LinearProgress, Paper, Stack,
   Table, TableBody, TableCell, TableHead, TableRow, Typography,
 } from "@mui/material"
 import type { CategorySales, CollectionSales } from "../models/types"
@@ -21,9 +21,10 @@ export function CategoryAnalysis({ categories, collections }: Props) {
       {/* 카테고리별 판매 Bar Chart */}
       <Grid size={5}>
         <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 1.5, height: "100%" }}>
-          <Typography variant="subtitle2" fontWeight={700} fontSize={13} mb={2}>
-            카테고리별 판매
-          </Typography>
+          <Stack direction="row" alignItems="center" gap={1} mb={2}>
+            <Typography variant="subtitle2" fontWeight={700} fontSize={13}>카테고리별 판매</Typography>
+            <Chip label="일부 적용 · 건수 OMS 기반" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
+          </Stack>
           <Stack spacing={2}>
             {categories.map((cat) => (
               <Box key={cat.category}>
@@ -58,9 +59,10 @@ export function CategoryAnalysis({ categories, collections }: Props) {
       <Grid size={7}>
         <Paper variant="outlined" sx={{ borderRadius: 1.5, height: "100%", overflow: "hidden" }}>
           <Box sx={{ px: 2.5, py: 2, borderBottom: "1px solid", borderColor: "divider" }}>
-            <Typography variant="subtitle2" fontWeight={700} fontSize={13}>
-              컬렉션별 판매 순위
-            </Typography>
+            <Stack direction="row" alignItems="center" gap={1}>
+              <Typography variant="subtitle2" fontWeight={700} fontSize={13}>컬렉션별 판매 순위</Typography>
+              <Chip label="일부 적용 · PIM 컬렉션 기반" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
+            </Stack>
           </Box>
           <Table size="small">
             <TableHead>

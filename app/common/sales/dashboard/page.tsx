@@ -13,6 +13,8 @@ import {
   ProductPerformance,
   InventoryStatus,
   CustomerAnalysis,
+  OrderInsights,
+  MarketingPerformance,
   type PeriodUnit,
 } from "@/features/sales-dashboard"
 import {
@@ -26,6 +28,11 @@ import {
   mockInboundItems,
   mockDtcMtcSummary,
   mockCustomerAnalysis,
+  mockBestsellers,
+  mockOrderPattern,
+  mockMarketingKPI,
+  mockMarketingChannels,
+  mockCampaigns,
 } from "@/mock-data"
 import { DevModeWrapper } from "@/shared/components/DevModeWrapper"
 import { DevModeToggle } from "@/shared/components/DevModeToggle"
@@ -146,6 +153,34 @@ export default function SalesDashboardPage() {
           onSpecClick={setActiveBlock}
         >
           <ProductPerformance products={mockProductPerformance} />
+        </DevModeWrapper>
+
+        {/* 5.6 주문 인사이트 */}
+        <DevModeWrapper
+          name="OrderInsights"
+          filePath="features/sales-dashboard/components/OrderInsights.tsx"
+          enabled={devMode}
+          color="#0f766e"
+          specFile="common/sales/dashboard#5.6 주문 인사이트"
+          onSpecClick={setActiveBlock}
+        >
+          <OrderInsights bestsellers={mockBestsellers} orderPattern={mockOrderPattern} />
+        </DevModeWrapper>
+
+        {/* 5.7 마케팅 채널 성과 */}
+        <DevModeWrapper
+          name="MarketingPerformance"
+          filePath="features/sales-dashboard/components/MarketingPerformance.tsx"
+          enabled={devMode}
+          color="#c2410c"
+          specFile="common/sales/dashboard#5.7 마케팅 채널 성과"
+          onSpecClick={setActiveBlock}
+        >
+          <MarketingPerformance
+            kpi={mockMarketingKPI}
+            channels={mockMarketingChannels}
+            campaigns={mockCampaigns}
+          />
         </DevModeWrapper>
 
         {/* 6. 재고/입고 현황 */}

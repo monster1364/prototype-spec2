@@ -6,6 +6,8 @@ export { CategoryAnalysis } from './components/CategoryAnalysis'
 export { ProductPerformance } from './components/ProductPerformance'
 export { InventoryStatus } from './components/InventoryStatus'
 export { CustomerAnalysis } from './components/CustomerAnalysis'
+export { OrderInsights } from './components/OrderInsights'
+export { MarketingPerformance } from './components/MarketingPerformance'
 
 export type {
   PeriodUnit,
@@ -20,4 +22,10 @@ export type {
   SalesInventoryItem,
   InboundItem,
   DtcMtcSummary,
+  BestsellerItem,
+  CancelReasonItem,
+  OrderPatternData,
+  MarketingChannelItem,
+  CampaignItem,
+  MarketingKPI,
 } from './models/types'

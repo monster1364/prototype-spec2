@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import {
-  Box, Chip, Paper, Tab, Table, TableBody, TableCell,
+  Box, Chip, Paper, Stack, Tab, Table, TableBody, TableCell,
   TableHead, TableRow, Tabs, Typography,
 } from "@mui/material"
 import type { ProductPerformanceItem, ProductClassification } from "../models/types"
@@ -26,9 +26,10 @@ export function ProductPerformance({ products }: Props) {
   return (
     <Paper variant="outlined" sx={{ borderRadius: 1.5, mb: 2.5, overflow: "hidden" }}>
       <Box sx={{ px: 2.5, pt: 2, borderBottom: "1px solid", borderColor: "divider" }}>
-        <Typography variant="subtitle2" fontWeight={700} fontSize={13} mb={1}>
-          상품 성과 Top {products.length}
-        </Typography>
+        <Stack direction="row" alignItems="center" gap={1} mb={1}>
+          <Typography variant="subtitle2" fontWeight={700} fontSize={13}>상품 성과 Top {products.length}</Typography>
+          <Chip label="연동 필요 · 매출·전환율·재고" size="small" sx={{ fontSize: 11, bgcolor: '#f1f5f9', color: '#475569', fontWeight: 600 }} />
+        </Stack>
         <Tabs
           value={tab}
           onChange={(_, v) => setTab(v)}

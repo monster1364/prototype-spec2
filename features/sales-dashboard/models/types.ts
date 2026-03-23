@@ -98,3 +98,59 @@ export interface CustomerAnalysisData {
   cartAddCount: number
   wishlistAddCount: number
 }
+
+// ── 주문 인사이트 (5.6) — 실데이터 기반 ──────────────────────────
+
+export interface BestsellerItem {
+  rank: number
+  productName: string
+  orderCount: number             // OMS 실데이터
+  revenue: number                // 더미
+  cancelCount: number            // OMS 실데이터
+  cancelRate: number             // %
+}
+
+export interface CancelReasonItem {
+  reason: string
+  count: number
+  ratio: number                  // %
+}
+
+export interface OrderPatternData {
+  giftCount: number              // OMS 실데이터
+  normalCount: number            // OMS 실데이터
+  giftRatio: number              // %
+  cancelCount: number
+  cancelRate: number
+  cancelReasons: CancelReasonItem[]
+}
+
+// ── 마케팅 채널 성과 (5.7) — 더미 데이터 ─────────────────────────
+
+export interface MarketingChannelItem {
+  channel: string                // Organic / Paid Search / SNS / Email / Direct
+  sessions: number
+  orders: number
+  revenue: number
+  conversionRate: number         // %
+  roas?: number                  // 광고 채널만
+}
+
+export interface CampaignItem {
+  name: string
+  channel: string
+  period: string                 // YYYY-MM
+  spend: number
+  revenue: number
+  roas: number
+  orders: number
+}
+
+export interface MarketingKPI {
+  totalRoas: number
+  adRevenue: number
+  adSpend: number
+  adOrders: number
+  adRevenueDelta: number
+  roasDelta: number
+}

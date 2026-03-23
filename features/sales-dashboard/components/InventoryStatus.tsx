@@ -16,6 +16,11 @@ interface Props {
 export function InventoryStatus({ inventory, inbound, dtcMtc }: Props) {
   return (
     <Box sx={{ mb: 2.5 }}>
+      {/* 섹션 헤더 */}
+      <Stack direction="row" alignItems="center" gap={1} mb={1.5}>
+        <Typography fontWeight={700} fontSize={14}>재고 · 입고 현황</Typography>
+        <Chip label="연동 필요 · WMS/ERP" size="small" sx={{ fontSize: 11, bgcolor: '#f1f5f9', color: '#475569', fontWeight: 600 }} />
+      </Stack>
       {/* DTC / MTC 카드 */}
       <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid size={6}>

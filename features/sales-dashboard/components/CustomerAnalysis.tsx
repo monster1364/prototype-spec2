@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Grid, Paper, Stack, Typography } from "@mui/material"
+import { Box, Chip, Grid, Paper, Stack, Typography } from "@mui/material"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import FavoriteIcon from "@mui/icons-material/Favorite"
 import type { CustomerAnalysisData } from "../models/types"
@@ -18,9 +18,10 @@ export function CustomerAnalysis({ data }: Props) {
 
   return (
     <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 1.5 }}>
-      <Typography variant="subtitle2" fontWeight={700} fontSize={13} mb={2}>
-        고객 분석
-      </Typography>
+      <Stack direction="row" alignItems="center" gap={1} mb={2}>
+        <Typography variant="subtitle2" fontWeight={700} fontSize={13}>고객 분석</Typography>
+        <Chip label="연동 필요 · CRM" size="small" sx={{ fontSize: 11, bgcolor: '#f1f5f9', color: '#475569', fontWeight: 600 }} />
+      </Stack>
       <Grid container spacing={3} alignItems="center">
         {/* Donut */}
         <Grid size={3}>

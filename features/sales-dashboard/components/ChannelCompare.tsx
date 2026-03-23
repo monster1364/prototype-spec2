@@ -21,13 +21,14 @@ export function ChannelCompare({ data }: Props) {
     { label: "온라인", value: data.online, color: CHANNEL_COLORS.online },
     { label: "오프라인", value: data.offline, color: CHANNEL_COLORS.offline },
     { label: "선물하기", value: data.gift, color: CHANNEL_COLORS.gift },
-  ]
+  ].filter((ch) => ch.value > 0)
 
   return (
     <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 1.5, height: "100%" }}>
-      <Typography variant="subtitle2" fontWeight={700} fontSize={13} mb={2}>
-        채널별 매출 비교
-      </Typography>
+      <Stack direction="row" alignItems="center" gap={1} mb={2}>
+        <Typography variant="subtitle2" fontWeight={700} fontSize={13}>채널별 매출 비교</Typography>
+        <Chip label="일부 적용 · 기프트 건수 OMS" size="small" sx={{ fontSize: 11, bgcolor: '#fef3c7', color: '#92400e', fontWeight: 600 }} />
+      </Stack>
 
       <Stack direction="row" alignItems="center" gap={3}>
         {/* SVG Donut */}
