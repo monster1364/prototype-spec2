@@ -71,8 +71,40 @@ export function CustomerAnalysis({ data }: Props) {
           </Box>
         </Grid>
 
-        {/* 우: 장바구니 / 위시리스트 탭 테이블 */}
+        {/* 우: 재방문 지표 + 장바구니/위시리스트 탭 */}
         <Grid size={9}>
+          {/* 재방문 / 재구매 지표 */}
+          <Grid container spacing={1.5} mb={2}>
+            {[
+              {
+                label: '30일 재구매율',
+                value: `${data.repurchaseRate30d}%`,
+                color: data.repurchaseRate30d >= 25 ? '#15803d' : data.repurchaseRate30d >= 15 ? '#d97706' : '#dc2626',
+                insight: data.repurchaseRate30d >= 25 ? '양호' : data.repurchaseRate30d >= 15 ? '개선 필요' : '낮음 · CRM 액션 필요',
+              },
+              {
+                label: '평균 재구매 주기',
+                value: `${data.avgRepurchaseDays}일`,
+                color: '#1976d2',
+                insight: `첫 구매 후 평균 ${data.avgRepurchaseDays}일 후 재방문`,
+              },
+              {
+                label: '1회 구매자 비율',
+                value: `${data.oneTimeBuyerRatio}%`,
+                color: data.oneTimeBuyerRatio >= 70 ? '#dc2626' : '#475569',
+                insight: data.oneTimeBuyerRatio >= 70 ? '재구매 유도 캠페인 필요' : '재구매 비율 양호',
+              },
+            ].map((item) => (
+              <Grid key={item.label} size={4}>
+                <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5, p: 1.5 }}>
+                  <Typography fontSize={10} color="text.secondary" fontWeight={600} sx={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</Typography>
+                  <Typography fontSize={20} fontWeight={700} sx={{ color: item.color, mt: 0.25 }}>{item.value}</Typography>
+                  <Typography fontSize={10} color="text.disabled" mt={0.25}>{item.insight}</Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+
           {/* 탭 헤더 + 합계 */}
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
             <Tabs

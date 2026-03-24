@@ -33,6 +33,7 @@ import {
   mockBestsellers,
   mockOrderPattern,
   mockTrafficData,
+  mockConversionFunnel,
 } from "@/mock-data"
 import { DevModeWrapper } from "@/shared/components/DevModeWrapper"
 import { DevModeToggle } from "@/shared/components/DevModeToggle"
@@ -143,8 +144,8 @@ function SalesDashboardContent() {
       <Box sx={{ bgcolor: "background.paper", borderBottom: "1px solid", borderColor: "divider", px: 3, py: 1.5 }}>
         <Breadcrumbs separator={<NavigateNextIcon sx={{ fontSize: 14 }} />} sx={{ fontSize: 13 }}>
           <Link component={NextLink} href="/" color="text.secondary" underline="hover" fontSize={13}>Home</Link>
-          <Link component={NextLink} href="/common" color="text.secondary" underline="hover" fontSize={13}>Common</Link>
-          <Link component={NextLink} href="/common/sales" color="text.secondary" underline="hover" fontSize={13}>Sales</Link>
+          <Link component={NextLink} href="/nuflaat" color="text.secondary" underline="hover" fontSize={13}>Nuflaat</Link>
+          <Link component={NextLink} href="/nuflaat/sales" color="text.secondary" underline="hover" fontSize={13}>Sales</Link>
           <Typography color="text.primary" fontSize={13} fontWeight={500}>Sales Dashboard</Typography>
         </Breadcrumbs>
       </Box>
@@ -155,7 +156,7 @@ function SalesDashboardContent() {
       {/* 헤더 필터 */}
       <Box sx={{ bgcolor: "background.paper", borderBottom: "1px solid", borderColor: "divider" }}>
         <Box sx={{ maxWidth: 1400, mx: "auto", px: 3, py: 2 }}>
-          <DevModeWrapper name="SalesDashboardHeader" filePath="features/sales-dashboard/components/SalesDashboardHeader.tsx" enabled={devMode} color="#7c3aed" specFile="common/sales/dashboard#5.1 Page Header Area" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="SalesDashboardHeader" filePath="features/sales-dashboard/components/SalesDashboardHeader.tsx" enabled={devMode} color="#7c3aed" specFile="nuflaat/sales/dashboard#5.1 Page Header Area" onSpecClick={setActiveBlock}>
             <SalesDashboardHeader
               periodUnit={periodUnit} onPeriodChange={setPeriodUnit}
               dateRange={dateRange} onDateRangeChange={setDateRange}
@@ -172,49 +173,49 @@ function SalesDashboardContent() {
       <Box sx={{ maxWidth: 1400, mx: "auto", px: 3, py: 3 }}>
 
         <Box id="kpi" sx={{ scrollMarginTop: 48 }}>
-          <DevModeWrapper name="KpiSummary" filePath="features/sales-dashboard/components/KpiSummary.tsx" enabled={devMode} color="#0369a1" specFile="common/sales/dashboard#5.2 KPI Summary Area" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="KpiSummary" filePath="features/sales-dashboard/components/KpiSummary.tsx" enabled={devMode} color="#0369a1" specFile="nuflaat/sales/dashboard#5.2 KPI Summary Area" onSpecClick={setActiveBlock}>
             <KpiSummary kpi={mockSalesKPI} />
           </DevModeWrapper>
         </Box>
 
         <Box id="trend" sx={{ scrollMarginTop: 48, mb: 2 }}>
-          <DevModeWrapper name="SalesTrend" filePath="features/sales-dashboard/components/SalesTrend.tsx" enabled={devMode} color="#047857" specFile="common/sales/dashboard#5.4 매출 추이" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="SalesTrend" filePath="features/sales-dashboard/components/SalesTrend.tsx" enabled={devMode} color="#047857" specFile="nuflaat/sales/dashboard#5.3 매출 추이" onSpecClick={setActiveBlock}>
             <SalesTrend data={trendData} periodUnit={applied.periodUnit} />
           </DevModeWrapper>
         </Box>
 
         <Box id="orders" sx={{ scrollMarginTop: 48 }}>
-          <DevModeWrapper name="OrderInsights" filePath="features/sales-dashboard/components/OrderInsights.tsx" enabled={devMode} color="#0f766e" specFile="common/sales/dashboard#5.6 주문 인사이트" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="OrderInsights" filePath="features/sales-dashboard/components/OrderInsights.tsx" enabled={devMode} color="#0f766e" specFile="nuflaat/sales/dashboard#5.4 주문 인사이트" onSpecClick={setActiveBlock}>
             <OrderInsights bestsellers={mockBestsellers} orderPattern={mockOrderPattern} />
           </DevModeWrapper>
         </Box>
 
         <Box id="traffic" sx={{ scrollMarginTop: 48 }}>
-          <DevModeWrapper name="TrafficAnalysis" filePath="features/sales-dashboard/components/TrafficAnalysis.tsx" enabled={devMode} color="#7c3aed" specFile="common/sales/dashboard#5.9 트래픽 & 전환 분석" onSpecClick={setActiveBlock}>
-            <TrafficAnalysis data={mockTrafficData} />
+          <DevModeWrapper name="TrafficAnalysis" filePath="features/sales-dashboard/components/TrafficAnalysis.tsx" enabled={devMode} color="#7c3aed" specFile="nuflaat/sales/dashboard#5.5 트래픽 & 전환 분석" onSpecClick={setActiveBlock}>
+            <TrafficAnalysis data={mockTrafficData} funnelData={mockConversionFunnel} />
           </DevModeWrapper>
         </Box>
 
         <Box id="customer" sx={{ scrollMarginTop: 48 }}>
-          <DevModeWrapper name="CustomerAnalysis" filePath="features/sales-dashboard/components/CustomerAnalysis.tsx" enabled={devMode} color="#6d28d9" specFile="common/sales/dashboard#5.7 고객 분석 (CRM)" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="CustomerAnalysis" filePath="features/sales-dashboard/components/CustomerAnalysis.tsx" enabled={devMode} color="#6d28d9" specFile="nuflaat/sales/dashboard#5.6 고객 분석" onSpecClick={setActiveBlock}>
             <CustomerAnalysis data={mockCustomerAnalysis} />
           </DevModeWrapper>
         </Box>
 
         <Box id="product" sx={{ scrollMarginTop: 48 }}>
-          <DevModeWrapper name="ProductPerformance" filePath="features/sales-dashboard/components/ProductPerformance.tsx" enabled={devMode} color="#b91c1c" specFile="common/sales/dashboard#5.5 상품 성과" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="ProductPerformance" filePath="features/sales-dashboard/components/ProductPerformance.tsx" enabled={devMode} color="#b91c1c" specFile="nuflaat/sales/dashboard#5.7 상품 성과" onSpecClick={setActiveBlock}>
             <ProductPerformance products={filteredProducts} />
           </DevModeWrapper>
         </Box>
 
         <Box id="inventory" sx={{ scrollMarginTop: 48 }}>
-          <DevModeWrapper name="InventoryStatus" filePath="features/sales-dashboard/components/InventoryStatus.tsx" enabled={devMode} color="#0891b2" specFile="common/sales/dashboard#5.6 재고/입고 현황" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="InventoryStatus" filePath="features/sales-dashboard/components/InventoryStatus.tsx" enabled={devMode} color="#0891b2" specFile="nuflaat/sales/dashboard#5.8 재고/입고 현황" onSpecClick={setActiveBlock}>
             <InventoryStatus inboundTracking={filteredInboundTracking} dtcMtc={mockDtcMtcSummary} />
           </DevModeWrapper>
         </Box>
 
         <Box id="category" sx={{ scrollMarginTop: 48 }}>
-          <DevModeWrapper name="CategoryAnalysis" filePath="features/sales-dashboard/components/CategoryAnalysis.tsx" enabled={devMode} color="#be185d" specFile="common/sales/dashboard#5.5 카테고리" onSpecClick={setActiveBlock}>
+          <DevModeWrapper name="CategoryAnalysis" filePath="features/sales-dashboard/components/CategoryAnalysis.tsx" enabled={devMode} color="#be185d" specFile="nuflaat/sales/dashboard#5.9 카테고리 / 컬렉션 분석" onSpecClick={setActiveBlock}>
             <CategoryAnalysis
               categories={filteredCategorySales}
               collections={filteredCollectionSales}

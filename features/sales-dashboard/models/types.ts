@@ -150,6 +150,10 @@ export interface CustomerAnalysisData {
   wishlistAddCount: number
   cartItems: CartItem[]
   wishlistItems: WishlistItem[]
+  // 재방문/재구매 지표
+  repurchaseRate30d: number      // 30일 내 재구매율 (%)
+  avgRepurchaseDays: number      // 평균 재구매 주기 (일)
+  oneTimeBuyerRatio: number      // 1회 구매자 비율 (%)
 }
 
 // ── 주문 인사이트 (5.6) — 실데이터 기반 ──────────────────────────
@@ -178,6 +182,15 @@ export interface OrderPatternData {
   cancelReasons: CancelReasonItem[]
 }
 
+// ── 전환 퍼널 (GA4 기반 단계별 이탈 분석) ───────────────────────
+
+export interface ConversionFunnelData {
+  sessions: number             // 방문 (총 세션)
+  productViewSessions: number  // 상품 조회 세션 (PDP 진입)
+  cartAddSessions: number      // 장바구니 추가 세션
+  purchases: number            // 구매 완료
+}
+
 // ── 트래픽 & 전환 분석 (GA4 Data API) ────────────────────────────
 
 export interface TrafficWeeklyItem {
@@ -189,7 +202,12 @@ export interface TrafficWeeklyItem {
   total: number            // 전체 세션
   itemViews: number        // 상품 조회수
   itemViewsPerSession: number  // 인당 상품 조회수
-  conversionRate: number   // 구매 전환율 (%)
+  conversionRate: number   // 전체 구매 전환율 (%)
+  // 채널별 전환율 (GA4 sessionConversionRate per channel)
+  paidSocialConvRate: number
+  directConvRate: number
+  searchConvRate: number
+  organicSocialConvRate: number
 }
 
 // ── 마케팅 채널 성과 (5.7) — 더미 데이터 ─────────────────────────

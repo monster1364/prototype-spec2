@@ -8,7 +8,6 @@ const services = [
     domains: [
       { name: 'OMS', path: '/common/oms' },
       { name: 'PIM', path: '/common/pim' },
-      { name: 'Sales', path: '/common/sales' },
     ],
   },
   {
@@ -24,7 +23,9 @@ const services = [
     name: 'Nuflaat',
     slug: 'nuflaat',
     description: '누플랫 서비스',
-    domains: [],
+    domains: [
+      { name: 'Sales', path: '/nuflaat/sales' },
+    ],
   },
   {
     name: 'Atiissu',

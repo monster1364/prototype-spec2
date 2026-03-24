@@ -1,6 +1,6 @@
 # Sales 도메인 정책서
 
-**경로:** `common/sales`
+**경로:** `nuflaat/sales`
 
 **도메인 목적:**
 오프라인 채널 판매 데이터를 통합·표준화하여 분석할 수 있는 환경을 제공한다.
@@ -31,16 +31,16 @@
 
 ## 새 화면 추가 방법
 
-1. `specs/common/sales/{화면명}.md` 파일 작성
+1. `specs/nuflaat/sales/{화면명}.md` 파일 작성
 2. Claude Code에 프롬프트 입력:
 
 ```
-specs/common/sales/{화면명}.md 를 읽고
-app/common/sales/{화면명}/page.tsx 를 만들어줘.
+specs/nuflaat/sales/{화면명}.md 를 읽고
+app/nuflaat/sales/{화면명}/page.tsx 를 만들어줘.
 
 - CLAUDE.md 절대 규칙 준수
 - 목업 데이터는 mock-data/index.ts 에 타입과 함께 정의
 - 화면 이동은 Next.js Link 사용
 ```
 
-3. `app/common/sales/page.tsx` 의 `pages` 배열에 새 화면 등록
+3. `app/nuflaat/sales/page.tsx` 의 `pages` 배열에 새 화면 등록

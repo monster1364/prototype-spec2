@@ -11,6 +11,7 @@ export { TrafficAnalysis } from './components/TrafficAnalysis'
 
 export type {
   PeriodUnit,
+  ConversionFunnelData,
   SalesDashboardKPI,
   SalesChannelData,
   SalesTrendItem,

@@ -78,8 +78,8 @@ export default function MdDrawer({ specFile, onClose }: MdDrawerProps) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/20 z-40" onClick={onClose} />
-      <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl z-50 flex flex-col">
+      <div className="fixed inset-0 bg-black/20 z-[150]" onClick={onClose} />
+      <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl z-[200] flex flex-col">
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
           <div className="flex items-center gap-2">
             <span className="text-lg">📄</span>

@@ -751,6 +751,10 @@ export const mockCustomerAnalysis: CustomerAnalysisData = {
   wishlistAddCount: 5130,
   cartItems: mockCartItems,
   wishlistItems: mockWishlistItems,
+  // 재방문/재구매 지표 (CRM 연동 필요 · 더미)
+  repurchaseRate30d: 18.4,   // 30일 내 재구매율 — 런칭 초기 브랜드 평균 수준
+  avgRepurchaseDays: 42,     // 평균 재구매 주기 (일)
+  oneTimeBuyerRatio: 71.2,   // 1회 구매자 비율 — 신규 브랜드 특성상 높음
 }
 
 // ----- 주문 인사이트 (5.6) — 실데이터 기반 -----
@@ -1202,14 +1206,27 @@ export const mockOrderListItems: OrderListItem[] = [
 import type { TrafficWeeklyItem } from '@/features/sales-dashboard/models/types'
 export type { TrafficWeeklyItem }
 
+import type { ConversionFunnelData } from '@/features/sales-dashboard/models/types'
+export type { ConversionFunnelData }
+
+// 전환 퍼널: W36~W44 합산 기준 (GA4 연동 필요 · 더미)
+// sessions = mockTrafficData total 합산 / productViewSessions = sessions×70% 추정
+// cartAddSessions = mockCustomerAnalysis.cartAddCount / purchases = sessions×1.17% 추정
+export const mockConversionFunnel: ConversionFunnelData = {
+  sessions:            91216,
+  productViewSessions: 63851,
+  cartAddSessions:      8420,
+  purchases:            1067,
+}
+
 export const mockTrafficData: TrafficWeeklyItem[] = [
-  { week: 'W36', paidSocial: 11206, direct: 4395, search: 3955, organicSocial: 2417, total: 21973, itemViews: 43946, itemViewsPerSession: 2.0, conversionRate: 0.8 },
-  { week: 'W37', paidSocial: 9912, direct: 3965, search: 3569, organicSocial: 2377, total: 19823, itemViews: 39646, itemViewsPerSession: 2.0, conversionRate: 1.1 },
-  { week: 'W38', paidSocial: 3656, direct: 1787, search: 1543, organicSocial: 1139, total:  8125, itemViews: 16250, itemViewsPerSession: 2.0, conversionRate: 1.0 },
-  { week: 'W39', paidSocial: 3018, direct: 1883, search: 1358, organicSocial: 1282, total:  7541, itemViews: 15082, itemViewsPerSession: 2.0, conversionRate: 1.0 },
-  { week: 'W40', paidSocial: 3623, direct: 2265, search: 1630, organicSocial: 1540, total:  9058, itemViews: 18116, itemViewsPerSession: 2.0, conversionRate: 1.0 },
-  { week: 'W41', paidSocial: 3178, direct: 1987, search: 1430, organicSocial: 1352, total:  7947, itemViews: 15894, itemViewsPerSession: 2.0, conversionRate: 0.9 },
-  { week: 'W42', paidSocial: 2605, direct: 1628, search: 1172, organicSocial: 1107, total:  6512, itemViews: 14126, itemViewsPerSession: 2.2, conversionRate: 1.9 },
-  { week: 'W43', paidSocial: 2396, direct: 1497, search: 1078, organicSocial: 1019, total:  5990, itemViews: 14975, itemViewsPerSession: 2.5, conversionRate: 1.2 },
-  { week: 'W44', paidSocial: 1699, direct: 1062, search:  764, organicSocial:  722, total:  4247, itemViews: 11481, itemViewsPerSession: 2.7, conversionRate: 1.6 },
+  { week: 'W36', paidSocial: 11206, direct: 4395, search: 3955, organicSocial: 2417, total: 21973, itemViews: 43946, itemViewsPerSession: 2.0, conversionRate: 0.8,  paidSocialConvRate: 0.4, directConvRate: 1.8, searchConvRate: 1.2, organicSocialConvRate: 2.1 },
+  { week: 'W37', paidSocial: 9912,  direct: 3965, search: 3569, organicSocial: 2377, total: 19823, itemViews: 39646, itemViewsPerSession: 2.0, conversionRate: 1.1,  paidSocialConvRate: 0.6, directConvRate: 2.0, searchConvRate: 1.5, organicSocialConvRate: 2.3 },
+  { week: 'W38', paidSocial: 3656,  direct: 1787, search: 1543, organicSocial: 1139, total:  8125, itemViews: 16250, itemViewsPerSession: 2.0, conversionRate: 1.0,  paidSocialConvRate: 0.5, directConvRate: 1.9, searchConvRate: 1.3, organicSocialConvRate: 2.0 },
+  { week: 'W39', paidSocial: 3018,  direct: 1883, search: 1358, organicSocial: 1282, total:  7541, itemViews: 15082, itemViewsPerSession: 2.0, conversionRate: 1.0,  paidSocialConvRate: 0.4, directConvRate: 1.7, searchConvRate: 1.1, organicSocialConvRate: 1.9 },
+  { week: 'W40', paidSocial: 3623,  direct: 2265, search: 1630, organicSocial: 1540, total:  9058, itemViews: 18116, itemViewsPerSession: 2.0, conversionRate: 1.0,  paidSocialConvRate: 0.5, directConvRate: 2.1, searchConvRate: 1.4, organicSocialConvRate: 2.2 },
+  { week: 'W41', paidSocial: 3178,  direct: 1987, search: 1430, organicSocial: 1352, total:  7947, itemViews: 15894, itemViewsPerSession: 2.0, conversionRate: 0.9,  paidSocialConvRate: 0.3, directConvRate: 1.6, searchConvRate: 1.0, organicSocialConvRate: 1.8 },
+  { week: 'W42', paidSocial: 2605,  direct: 1628, search: 1172, organicSocial: 1107, total:  6512, itemViews: 14126, itemViewsPerSession: 2.2, conversionRate: 1.9,  paidSocialConvRate: 1.0, directConvRate: 3.2, searchConvRate: 2.5, organicSocialConvRate: 3.1 },
+  { week: 'W43', paidSocial: 2396,  direct: 1497, search: 1078, organicSocial: 1019, total:  5990, itemViews: 14975, itemViewsPerSession: 2.5, conversionRate: 1.2,  paidSocialConvRate: 0.5, directConvRate: 2.0, searchConvRate: 1.5, organicSocialConvRate: 2.2 },
+  { week: 'W44', paidSocial: 1699,  direct: 1062, search:  764, organicSocial:  722, total:  4247, itemViews: 11481, itemViewsPerSession: 2.7, conversionRate: 1.6,  paidSocialConvRate: 0.7, directConvRate: 2.8, searchConvRate: 1.8, organicSocialConvRate: 2.5 },
 ]
