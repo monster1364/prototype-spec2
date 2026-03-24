@@ -1230,3 +1230,58 @@ export const mockTrafficData: TrafficWeeklyItem[] = [
   { week: 'W43', paidSocial: 2396,  direct: 1497, search: 1078, organicSocial: 1019, total:  5990, itemViews: 14975, itemViewsPerSession: 2.5, conversionRate: 1.2,  paidSocialConvRate: 0.5, directConvRate: 2.0, searchConvRate: 1.5, organicSocialConvRate: 2.2 },
   { week: 'W44', paidSocial: 1699,  direct: 1062, search:  764, organicSocial:  722, total:  4247, itemViews: 11481, itemViewsPerSession: 2.7, conversionRate: 1.6,  paidSocialConvRate: 0.7, directConvRate: 2.8, searchConvRate: 1.8, organicSocialConvRate: 2.5 },
 ]
+
+// ── Marketing / Instagram ─────────────────────────────────
+import type { InstagramKPI, InstagramDailyMetric, InstagramPost } from '@/features/marketing-dashboard/models/types'
+
+export const mockInstagramKPI: InstagramKPI = {
+  followers: 284_300,
+  followersDelta: 3_840,
+  followersDeltaRate: 1.37,
+  totalReach: 1_820_000,
+  totalImpressions: 2_640_000,
+  totalLikes: 98_400,
+  totalSaves: 22_100,
+  totalComments: 4_320,
+  avgEngagementRate: 6.84,
+}
+
+export const mockInstagramDaily: InstagramDailyMetric[] = [
+  // 2026-03-01 ~ 2026-03-23 (23일치)
+  { date: '2026-03-01', reach: 68_000, likes: 3_800, saves: 820, newFollowers: 140 },
+  { date: '2026-03-02', reach: 52_000, likes: 2_900, saves: 640, newFollowers: 98 },
+  { date: '2026-03-03', reach: 91_000, likes: 5_600, saves: 1_200, newFollowers: 210 },
+  { date: '2026-03-04', reach: 110_000, likes: 7_200, saves: 1_580, newFollowers: 340 },
+  { date: '2026-03-05', reach: 88_000, likes: 5_100, saves: 1_050, newFollowers: 190 },
+  { date: '2026-03-06', reach: 74_000, likes: 4_300, saves: 920, newFollowers: 155 },
+  { date: '2026-03-07', reach: 62_000, likes: 3_500, saves: 760, newFollowers: 120 },
+  { date: '2026-03-08', reach: 58_000, likes: 3_200, saves: 700, newFollowers: 110 },
+  { date: '2026-03-09', reach: 120_000, likes: 8_400, saves: 1_900, newFollowers: 420 },
+  { date: '2026-03-10', reach: 98_000, likes: 6_200, saves: 1_380, newFollowers: 260 },
+  { date: '2026-03-11', reach: 84_000, likes: 5_000, saves: 1_100, newFollowers: 180 },
+  { date: '2026-03-12', reach: 71_000, likes: 4_100, saves: 880, newFollowers: 148 },
+  { date: '2026-03-13', reach: 65_000, likes: 3_700, saves: 800, newFollowers: 130 },
+  { date: '2026-03-14', reach: 55_000, likes: 3_100, saves: 680, newFollowers: 108 },
+  { date: '2026-03-15', reach: 48_000, likes: 2_700, saves: 590, newFollowers:  92 },
+  { date: '2026-03-16', reach: 135_000, likes: 9_800, saves: 2_200, newFollowers: 510 },
+  { date: '2026-03-17', reach: 108_000, likes: 7_000, saves: 1_520, newFollowers: 280 },
+  { date: '2026-03-18', reach: 90_000, likes: 5_500, saves: 1_200, newFollowers: 200 },
+  { date: '2026-03-19', reach: 78_000, likes: 4_600, saves: 980, newFollowers: 162 },
+  { date: '2026-03-20', reach: 66_000, likes: 3_900, saves: 840, newFollowers: 135 },
+  { date: '2026-03-21', reach: 57_000, likes: 3_300, saves: 720, newFollowers: 116 },
+  { date: '2026-03-22', reach: 50_000, likes: 2_800, saves: 610, newFollowers:  98 },
+  { date: '2026-03-23', reach: 145_000, likes: 10_200, saves: 2_400, newFollowers: 580 },
+]
+
+export const mockInstagramPosts: InstagramPost[] = [
+  { id: '1', type: 'reel',  caption: 'SS26 컬렉션 첫 공개 🌸 봄을 담은 라인업',          publishedAt: '2026-03-23', reach: 145_000, likes: 10_200, saves: 2_400, comments: 842, shares: 310, engagementRate: 9.3 },
+  { id: '2', type: 'reel',  caption: '네일 텀블러 하우투 — 매일 쓰고 싶어지는 이유',      publishedAt: '2026-03-16', reach: 135_000, likes: 9_800,  saves: 2_200, comments: 768, shares: 290, engagementRate: 9.1 },
+  { id: '3', type: 'reel',  caption: '봄 테이블 세팅 with Line Collection',               publishedAt: '2026-03-09', reach: 120_000, likes: 8_400,  saves: 1_900, comments: 620, shares: 240, engagementRate: 9.1 },
+  { id: '4', type: 'post',  caption: 'Wave 컬렉션 신상 입고 완료 ✨',                     publishedAt: '2026-03-04', reach: 110_000, likes: 7_200,  saves: 1_580, comments: 510, shares: 180, engagementRate: 8.4 },
+  { id: '5', type: 'reel',  caption: '카푸치노 컵 unboxing — 첫 느낌 그대로',             publishedAt: '2026-03-17', reach: 108_000, likes: 7_000,  saves: 1_520, comments: 490, shares: 200, engagementRate: 8.3 },
+  { id: '6', type: 'post',  caption: 'Pattern 컬렉션 룩북 공개',                          publishedAt: '2026-03-10', reach:  98_000, likes: 6_200,  saves: 1_380, comments: 420, shares: 160, engagementRate: 8.2 },
+  { id: '7', type: 'reel',  caption: '커틀러리 세트 — 매일의 식탁을 바꾸는 법',           publishedAt: '2026-03-05', reach:  88_000, likes: 5_100,  saves: 1_050, comments: 360, shares: 140, engagementRate: 7.4 },
+  { id: '8', type: 'post',  caption: 'Straight 컬렉션 입고 알림 🛒',                      publishedAt: '2026-03-11', reach:  84_000, likes: 5_000,  saves: 1_100, comments: 340, shares: 130, engagementRate: 7.7 },
+  { id: '9', type: 'story', caption: '오늘의 하이라이트 — 라인 머그 L 재입고',            publishedAt: '2026-03-18', reach:  45_000, likes: 2_100,  saves:   480, comments: 120, shares:  60, engagementRate: 6.0 },
+  { id: '10', type: 'story', caption: '주말 팝업 스토어 현장 스토리',                     publishedAt: '2026-03-22', reach:  38_000, likes: 1_800,  saves:   390, comments:  98, shares:  48, engagementRate: 5.9 },
+]

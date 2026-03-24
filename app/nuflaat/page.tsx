@@ -20,6 +20,13 @@ export default function NuflaatPage() {
             <div className="font-semibold text-gray-900 group-hover:text-blue-700 mb-1">Sales</div>
             <div className="text-sm text-gray-500">온라인 통합 판매 데이터 분석</div>
           </Link>
+          <Link
+            href="/nuflaat/marketing"
+            className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all group"
+          >
+            <div className="font-semibold text-gray-900 group-hover:text-blue-700 mb-1">Marketing</div>
+            <div className="text-sm text-gray-500">SNS 성과 · 외부 데이터 분석</div>
+          </Link>
         </div>
       </main>
     </div>
