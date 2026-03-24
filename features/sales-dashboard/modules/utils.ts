@@ -33,8 +33,8 @@ export function formatBatchDate(iso: string): string {
 export function getClassificationColor(
   cls: ProductClassification
 ): 'success' | 'error' | 'default' {
-  if (cls === 'opportunity') return 'success'
-  if (cls === 'risk') return 'error'
+  if (cls === 'reorder') return 'success'
+  if (cls === 'slow_moving') return 'error'
   return 'default'
 }
 

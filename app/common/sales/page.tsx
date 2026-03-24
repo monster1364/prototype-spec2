@@ -31,6 +31,7 @@ export default function SalesIndexPage() {
           <p className="text-sm text-gray-500 mt-1">오프라인 통합 판매 데이터 분석 · 데이터 통합·표준화·자동화 기반</p>
         </div>
 
+        {/* 페이지 목록 */}
         <section>
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">페이지 목록</h2>
           {pages.length === 0 ? (

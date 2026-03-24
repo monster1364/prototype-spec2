@@ -7,7 +7,7 @@ export { ProductPerformance } from './components/ProductPerformance'
 export { InventoryStatus } from './components/InventoryStatus'
 export { CustomerAnalysis } from './components/CustomerAnalysis'
 export { OrderInsights } from './components/OrderInsights'
-export { MarketingPerformance } from './components/MarketingPerformance'
+export { TrafficAnalysis } from './components/TrafficAnalysis'
 
 export type {
   PeriodUnit,
@@ -16,17 +16,22 @@ export type {
   SalesTrendItem,
   CategorySales,
   CollectionSales,
+  CollectionTrendSeries,
   ProductPerformanceItem,
   CustomerAnalysisData,
   ProductClassification,
   SalesInventoryItem,
   InboundItem,
+  InboundTrackingItem,
   RestockAlertItem,
   DtcMtcSummary,
+  CartItem,
+  WishlistItem,
   BestsellerItem,
   CancelReasonItem,
   OrderPatternData,
   MarketingChannelItem,
   CampaignItem,
   MarketingKPI,
+  TrafficWeeklyItem,
 } from './models/types'

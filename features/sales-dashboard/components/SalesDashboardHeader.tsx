@@ -1,12 +1,13 @@
 "use client"
 
 import {
-  Box, Button, Chip, Divider, FormControl, InputLabel,
-  MenuItem, OutlinedInput, Paper, Select, Stack,
+  Box, Button, Checkbox, Chip, Divider, FormControl, InputLabel,
+  ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack,
   ToggleButton, ToggleButtonGroup, Typography,
 } from "@mui/material"
 import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import RestartAltIcon from "@mui/icons-material/RestartAlt"
+import SearchIcon from "@mui/icons-material/Search"
 import type { SelectChangeEvent } from "@mui/material"
 import type { PeriodUnit } from "../models/types"
 import { PERIOD_UNIT_LABELS, CATEGORY_LIST, COLLECTION_LIST } from "../modules/constants"
@@ -21,6 +22,8 @@ interface Props {
   onCategoryChange: (cats: string[]) => void
   selectedCollections: string[]
   onCollectionChange: (cols: string[]) => void
+  onSearch: () => void
+  onReset: () => void
   onExcelDownload: () => void
   updatedAt: string
 }
@@ -28,7 +31,6 @@ interface Props {
 const DATE_PLACEHOLDER: Record<PeriodUnit, { from: string; to: string }> = {
   daily:   { from: '2026-03-01', to: '2026-03-23' },
   monthly: { from: '2025-04',    to: '2026-03' },
-  yearly:  { from: '2022',       to: '2026' },
 }
 
 export function SalesDashboardHeader({
@@ -36,6 +38,7 @@ export function SalesDashboardHeader({
   dateRange, onDateRangeChange,
   selectedCategories, onCategoryChange,
   selectedCollections, onCollectionChange,
+  onSearch, onReset,
   onExcelDownload, updatedAt,
 }: Props) {
   function handlePeriodChange(_: React.MouseEvent<HTMLElement>, val: PeriodUnit | null) {
@@ -45,21 +48,19 @@ export function SalesDashboardHeader({
   }
 
   function handleCategoryChange(e: SelectChangeEvent<string[]>) {
-    onCategoryChange(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)
+    const val = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value
+    if (val.includes('__ALL__')) { onCategoryChange([...CATEGORY_LIST]); return }
+    onCategoryChange(val)
   }
 
   function handleCollectionChange(e: SelectChangeEvent<string[]>) {
-    onCollectionChange(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)
+    const val = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value
+    if (val.includes('__ALL__')) { onCollectionChange([...COLLECTION_LIST]); return }
+    onCollectionChange(val)
   }
 
-  function handleReset() {
-    onPeriodChange('monthly')
-    onDateRangeChange(DATE_PLACEHOLDER.monthly)
-    onCategoryChange([])
-    onCollectionChange([])
-  }
+  const inputType = periodUnit === 'daily' ? 'date' : 'month'
 
-  const inputType = periodUnit === 'daily' ? 'date' : periodUnit === 'monthly' ? 'month' : 'number'
 
   return (
     <Paper variant="outlined" sx={{ p: 2.5, mb: 2.5, borderRadius: 1.5 }}>
@@ -145,14 +146,21 @@ export function SalesDashboardHeader({
             onChange={handleCategoryChange}
             input={<OutlinedInput label="카테고리" />}
             renderValue={(selected) =>
-              selected.length === 0 ? "전체" :
+              selected.length === 0 || selected.length === CATEGORY_LIST.length ? "전체" :
               selected.length === 1 ? selected[0] :
               <Chip label={`${selected.length}개 선택`} size="small" />
             }
             sx={{ fontSize: 13 }}
           >
+            <MenuItem value="__ALL__" sx={{ fontSize: 13 }}>
+              <Checkbox checked={selectedCategories.length === CATEGORY_LIST.length} size="small" />
+              <ListItemText primary="전체" primaryTypographyProps={{ fontSize: 13, fontWeight: selectedCategories.length === CATEGORY_LIST.length ? 700 : 400, color: 'primary.main' }} />
+            </MenuItem>
             {CATEGORY_LIST.map((cat) => (
-              <MenuItem key={cat} value={cat} sx={{ fontSize: 13 }}>{cat}</MenuItem>
+              <MenuItem key={cat} value={cat} sx={{ fontSize: 13 }}>
+                <Checkbox checked={selectedCategories.includes(cat)} size="small" />
+                <ListItemText primary={cat} primaryTypographyProps={{ fontSize: 13 }} />
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -166,14 +174,21 @@ export function SalesDashboardHeader({
             onChange={handleCollectionChange}
             input={<OutlinedInput label="컬렉션" />}
             renderValue={(selected) =>
-              selected.length === 0 ? "전체" :
+              selected.length === 0 || selected.length === COLLECTION_LIST.length ? "전체" :
               selected.length === 1 ? selected[0] :
               <Chip label={`${selected.length}개 선택`} size="small" />
             }
             sx={{ fontSize: 13 }}
           >
+            <MenuItem value="__ALL__" sx={{ fontSize: 13 }}>
+              <Checkbox checked={selectedCollections.length === COLLECTION_LIST.length} size="small" />
+              <ListItemText primary="전체" primaryTypographyProps={{ fontSize: 13, fontWeight: selectedCollections.length === COLLECTION_LIST.length ? 700 : 400, color: 'primary.main' }} />
+            </MenuItem>
             {COLLECTION_LIST.map((col) => (
-              <MenuItem key={col} value={col} sx={{ fontSize: 13 }}>{col}</MenuItem>
+              <MenuItem key={col} value={col} sx={{ fontSize: 13 }}>
+                <Checkbox checked={selectedCollections.includes(col)} size="small" />
+                <ListItemText primary={col} primaryTypographyProps={{ fontSize: 13 }} />
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -182,10 +197,21 @@ export function SalesDashboardHeader({
         <Button
           size="small"
           startIcon={<RestartAltIcon fontSize="small" />}
-          onClick={handleReset}
+          onClick={onReset}
           sx={{ textTransform: "none", fontSize: 13, color: "text.secondary" }}
         >
           초기화
+        </Button>
+
+        {/* 검색 */}
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<SearchIcon fontSize="small" />}
+          onClick={onSearch}
+          sx={{ textTransform: "none", fontSize: 13, fontWeight: 600 }}
+        >
+          검색
         </Button>
       </Stack>
     </Paper>
