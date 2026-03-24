@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { marked } from 'marked'
 
 interface MdDrawerProps {
   // "common/oms/dashboard" 또는 "common/oms/dashboard#page-header" 형식
@@ -43,25 +44,7 @@ function extractSection(md: string, anchor: string): string {
   return result.join('\n')
 }
 
-function mdToHtml(md: string): string {
-  return md
-    .replace(/^# (.+)$/gm, '<h1 class="text-lg font-bold mt-4 mb-2 text-gray-900">$1</h1>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-base font-semibold mt-3 mb-1.5 text-gray-800">$1</h2>')
-    .replace(/^### (.+)$/gm, '<h3 class="text-sm font-semibold mt-2 mb-1 text-gray-700">$1</h3>')
-    .replace(/^\| (.+) \|$/gm, (_, row) => {
-      const cells = row.split(' | ').map((c: string) => c.trim())
-      return `<tr>${cells.map((c: string) => `<td class="border border-gray-200 px-2 py-1 text-xs text-gray-600">${c}</td>`).join('')}</tr>`
-    })
-    .replace(/(<tr>.*<\/tr>\n?)+/g, (table) =>
-      `<table class="w-full border-collapse mb-3 text-xs">${table}</table>`
-    )
-    .replace(/^- \*\*(.+?)\*\*: (.+)$/gm, '<p class="text-sm text-gray-600 mb-1"><span class="font-medium text-gray-800">$1</span>: $2</p>')
-    .replace(/^- (.+)$/gm, '<li class="text-sm text-gray-600 ml-4 list-disc">$1</li>')
-    .replace(/(<li.*<\/li>\n?)+/g, (list) => `<ul class="mb-2">${list}</ul>`)
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^(?!<[a-z])(.+)$/gm, '<p class="text-sm text-gray-600 mb-2 leading-relaxed">$1</p>')
-    .replace(/^---$/gm, '<hr class="my-3 border-gray-200"/>')
-}
+const parseMarkdown = (md: string) => marked.parse(md, { gfm: true, breaks: false }) as string
 
 export default function MdDrawer({ specFile, onClose }: MdDrawerProps) {
   const [content, setContent] = useState<string>('')
@@ -77,7 +60,7 @@ export default function MdDrawer({ specFile, onClose }: MdDrawerProps) {
       if (!res.ok) throw new Error('spec 파일을 불러올 수 없습니다.')
       const data = await res.json()
       const md = anchor ? extractSection(data.content, anchor) : data.content
-      setContent(mdToHtml(md))
+      setContent(parseMarkdown(md))
     } catch (err) {
       setError(err instanceof Error ? err.message : '오류가 발생했습니다.')
     } finally {
@@ -95,8 +78,8 @@ export default function MdDrawer({ specFile, onClose }: MdDrawerProps) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/20 z-40" onClick={onClose} />
-      <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl z-50 flex flex-col">
+      <div className="fixed inset-0 bg-black/20 z-[150]" onClick={onClose} />
+      <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-xl z-[200] flex flex-col">
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
           <div className="flex items-center gap-2">
             <span className="text-lg">📄</span>
@@ -123,7 +106,7 @@ export default function MdDrawer({ specFile, onClose }: MdDrawerProps) {
             </div>
           )}
           {!loading && !error && content && (
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+            <div className="md-prose" dangerouslySetInnerHTML={{ __html: content }} />
           )}
         </div>
 

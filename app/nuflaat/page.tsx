@@ -10,10 +10,24 @@ export default function NuflaatPage() {
           <span className="text-gray-900 font-medium">Nuflaat</span>
         </div>
       </header>
-      <main className="max-w-5xl mx-auto px-6 py-12 text-center">
-        <div className="text-4xl mb-4">🏗️</div>
-        <h1 className="text-xl font-bold text-gray-900 mb-2">Nuflaat</h1>
-        <p className="text-gray-500 text-sm">아직 생성된 프로토타입이 없습니다.</p>
+      <main className="max-w-5xl mx-auto px-6 py-8">
+        <h1 className="text-xl font-bold text-gray-900 mb-6">Nuflaat 도메인</h1>
+        <div className="grid grid-cols-2 gap-4">
+          <Link
+            href="/nuflaat/sales"
+            className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all group"
+          >
+            <div className="font-semibold text-gray-900 group-hover:text-blue-700 mb-1">Sales</div>
+            <div className="text-sm text-gray-500">온라인 통합 판매 데이터 분석</div>
+          </Link>
+          <Link
+            href="/nuflaat/marketing"
+            className="bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all group"
+          >
+            <div className="font-semibold text-gray-900 group-hover:text-blue-700 mb-1">Marketing</div>
+            <div className="text-sm text-gray-500">SNS 성과 · 외부 데이터 분석</div>
+          </Link>
+        </div>
       </main>
     </div>
   )
