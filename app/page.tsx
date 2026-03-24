@@ -22,7 +22,7 @@ const services = [
   {
     name: 'Nuflaat',
     slug: 'nuflaat',
-    description: '누플랫 서비스',
+    description: '누플랏 서비스',
     domains: [
       { name: 'Sales', path: '/nuflaat/sales' },
     ],
@@ -30,7 +30,7 @@ const services = [
   {
     name: 'Atiissu',
     slug: 'atiissu',
-    description: '아티수 서비스',
+    description: '어티슈 서비스',
     domains: [],
   },
 ]
